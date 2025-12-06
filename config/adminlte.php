@@ -332,6 +332,17 @@ return [
                 ],
             ],
         ],
+        [
+            'text' => 'Empresa',
+            'icon' => 'fas fa-building',
+            'submenu' => [
+                ['text' => 'Datos Empresa', 'route' => 'empresa.empresa.index', 'icon' => 'fas fa-info-circle'],
+                ['text' => 'Sucursales', 'route' => 'empresa.sucursales.index', 'icon' => 'fas fa-store'],
+                ['text' => 'Depósitos', 'route' => 'empresa.depositos.index', 'icon' => 'fas fa-warehouse'],
+                ['text' => 'Puntos Expedición', 'route' => 'empresa.puntos-expedicion.index', 'icon' => 'fas fa-cash-register'],
+                ['text' => 'Timbrados', 'route' => 'empresa.timbrados.index', 'icon' => 'fas fa-stamp'],
+            ],
+        ],
         // [
         //     'text' => 'blog',
         //     'url' => 'admin/blog',
