@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'Grupo Servipar',
+    'title' => 'SIGEA',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -63,8 +63,8 @@ return [
     |
     */
 
-    'logo' => '<b>Grupo</b>Servipar',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo' => '<b>Sigea</b>S.A.',
+    'logo_img' => 'vendor/adminlte/dist/img/logo_redondo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -86,7 +86,7 @@ return [
     'auth_logo' => [
         'enabled' => false,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/logo_redondo.png',
             'alt' => 'Auth Logo',
             'class' => '',
             'width' => 50,
@@ -109,17 +109,17 @@ return [
     |
     */
 
-    'preloader' => [
-        'enabled' => true,
-        'mode' => 'fullscreen',
-        'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'AdminLTE Preloader Image',
-            'effect' => 'animation__shake',
-            'width' => 60,
-            'height' => 60,
-        ],
-    ],
+         'preloader' => [
+         'enabled' => false,
+         'mode' => 'fullscreen',
+         'img' => [
+             'path' => 'vendor/adminlte/dist/img/logo_redondo.png',
+             'alt' => 'AdminLTE Preloader Image',
+             'effect' => 'animation__shake',
+             'width' => 60,
+             'height' => 60,
+         ],
+     ],
 
     /*
     |--------------------------------------------------------------------------
@@ -341,6 +341,48 @@ return [
                 ['text' => 'Depósitos', 'route' => 'empresa.depositos.index', 'icon' => 'fas fa-warehouse'],
                 ['text' => 'Puntos Expedición', 'route' => 'empresa.puntos-expedicion.index', 'icon' => 'fas fa-cash-register'],
                 ['text' => 'Timbrados', 'route' => 'empresa.timbrados.index', 'icon' => 'fas fa-stamp'],
+            ],
+        ],
+        [
+            'text' => 'Stocks',
+            'icon' => 'fas fa-boxes',
+            'can' => 'Stocks Ver',
+            'submenu' => [
+                [
+                    'text' => 'Productos',
+                    'route' => 'stock.productos.index',
+                    'icon' => 'fas fa-box',
+                    'can' => 'Productos Ver',
+                ],
+                [
+                    'text' => 'Categorías',
+                    'route' => 'stock.categorias.index',
+                    'icon' => 'fas fa-sitemap',
+                    'can' => 'Categorias Ver',
+                ],
+                [
+                    'text' => 'Marcas',
+                    'route' => 'stock.marcas.index',
+                    'icon' => 'fas fa-tag',
+                    'can' => 'Marcas Ver',
+                ],
+                [
+                    'text' => 'Unidades de Medida',
+                    'route' => 'stock.unidades-medida.index',
+                    'icon' => 'fas fa-ruler',
+                    'can' => 'Unidades Medida Ver',
+                ],
+                [
+                    'text' => 'Stock General',
+                    'route' => 'stock.stock.index',
+                    'icon' => 'fas fa-warehouse',
+                    'can' => 'Stocks Ver',
+                ],
+                ['text' => 'Reportes', 'icon' => 'fas fa-chart-bar', 'submenu' => [
+                    ['text' => 'Stock Bajo', 'route' => 'stock.reportes.stock-bajo'],
+                    ['text' => 'Rotación', 'route' => 'stock.reportes.rotacion'],
+                    ['text' => 'Valorizado', 'route' => 'stock.reportes.valorizado'],
+                ]],
             ],
         ],
         // [

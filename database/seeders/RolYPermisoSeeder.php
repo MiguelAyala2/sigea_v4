@@ -106,13 +106,26 @@ class RolYPermisoSeeder extends Seeder
             'Inventario Editar',
             'Inventario Eliminar',
 
+            'Stock Ver',
+            'Stock Ajustar',
+
+            // MÓDULO DE STOCKS (Productos, Categorías y Marcas)
+            'Stocks Ver',
+            'Stocks Crear',
+            'Stocks Editar',
+            'Stocks Eliminar',
             'Productos Ver',
             'Productos Crear',
             'Productos Editar',
             'Productos Eliminar',
-
-            'Stock Ver',
-            'Stock Ajustar',
+            'Categorias Ver',
+            'Categorias Crear',
+            'Categorias Editar',
+            'Categorias Eliminar',
+            'Marcas Ver',
+            'Marcas Crear',
+            'Marcas Editar',
+            'Marcas Eliminar',
 
             // MÓDULO DE REPORTES
             'Reportes Ver',
@@ -164,6 +177,12 @@ class RolYPermisoSeeder extends Seeder
             'Productos Ver', 'Productos Crear', 'Productos Editar',
             'Stock Ver', 'Stock Ajustar',
 
+            // Módulo Stocks
+            'Stocks Ver', 'Stocks Crear', 'Stocks Editar', 'Stocks Eliminar',
+            'Productos Ver', 'Productos Crear', 'Productos Editar', 'Productos Eliminar',
+            'Categorias Ver', 'Categorias Crear', 'Categorias Editar', 'Categorias Eliminar',
+            'Marcas Ver', 'Marcas Crear', 'Marcas Editar', 'Marcas Eliminar',
+
             'Reportes Ver', 'Reportes Compras', 'Reportes Servicios', 'Reportes Ventas', 'Reportes Financieros',
             'Configuracion Ver', 'Configuracion Editar',
         ]);
@@ -189,6 +208,12 @@ class RolYPermisoSeeder extends Seeder
             'Productos Ver',
             'Stock Ver',
 
+            // Módulo Stocks (solo lectura)
+            'Stocks Ver',
+            'Productos Ver',
+            'Categorias Ver',
+            'Marcas Ver',
+
             'Reportes Ver', 'Reportes Compras', 'Reportes Servicios', 'Reportes Ventas', 'Reportes Financieros',
         ]);
 
@@ -213,6 +238,12 @@ class RolYPermisoSeeder extends Seeder
             'Productos Ver',
             'Stock Ver',
 
+            // Módulo Stocks (solo lectura)
+            'Stocks Ver',
+            'Productos Ver',
+            'Categorias Ver',
+            'Marcas Ver',
+
             'Reportes Ver', 'Reportes Compras', 'Reportes Servicios', 'Reportes Ventas',
         ]);
 
@@ -227,6 +258,11 @@ class RolYPermisoSeeder extends Seeder
             'Proveedores Ver', 'Proveedores Crear', 'Proveedores Editar',
             'Ordenes Compra Ver', 'Ordenes Compra Crear', 'Ordenes Compra Editar', 'Ordenes Compra Aprobar',
             'Inventario Ver', 'Productos Ver', 'Stock Ver',
+            // Módulo Stocks (acceso completo)
+            'Stocks Ver', 'Stocks Crear', 'Stocks Editar',
+            'Productos Ver', 'Productos Crear', 'Productos Editar',
+            'Categorias Ver', 'Categorias Crear', 'Categorias Editar',
+            'Marcas Ver', 'Marcas Crear', 'Marcas Editar',
             'Reportes Ver', 'Reportes Compras',
         ]);
 
@@ -237,6 +273,11 @@ class RolYPermisoSeeder extends Seeder
             'Proveedores Ver', 'Proveedores Crear', 'Proveedores Editar',
             'Ordenes Compra Ver', 'Ordenes Compra Crear', 'Ordenes Compra Editar',
             'Inventario Ver', 'Productos Ver', 'Stock Ver',
+            // Módulo Stocks
+            'Stocks Ver', 'Stocks Crear', 'Stocks Editar',
+            'Productos Ver', 'Productos Crear', 'Productos Editar',
+            'Categorias Ver', 'Categorias Crear', 'Categorias Editar',
+            'Marcas Ver', 'Marcas Crear', 'Marcas Editar',
             'Reportes Ver', 'Reportes Compras',
         ]);
 
@@ -247,6 +288,11 @@ class RolYPermisoSeeder extends Seeder
             'Proveedores Ver', 'Proveedores Crear',
             'Ordenes Compra Ver', 'Ordenes Compra Crear',
             'Inventario Ver', 'Productos Ver',
+            // Módulo Stocks (solo lectura)
+            'Stocks Ver',
+            'Productos Ver',
+            'Categorias Ver',
+            'Marcas Ver',
         ]);
 
         // ============================================
@@ -261,6 +307,11 @@ class RolYPermisoSeeder extends Seeder
             'Ordenes Servicio Ver', 'Ordenes Servicio Crear', 'Ordenes Servicio Editar', 'Ordenes Servicio Aprobar',
             'Clientes Ver', 'Clientes Crear', 'Clientes Editar',
             'Inventario Ver', 'Productos Ver', 'Stock Ver',
+            // Módulo Stocks (para ver productos necesarios para servicios)
+            'Stocks Ver',
+            'Productos Ver',
+            'Categorias Ver',
+            'Marcas Ver',
             'Reportes Ver', 'Reportes Servicios',
         ]);
 
@@ -272,6 +323,11 @@ class RolYPermisoSeeder extends Seeder
             'Ordenes Servicio Ver', 'Ordenes Servicio Crear', 'Ordenes Servicio Editar',
             'Clientes Ver',
             'Inventario Ver', 'Productos Ver',
+            // Módulo Stocks (solo lectura para ver materiales)
+            'Stocks Ver',
+            'Productos Ver',
+            'Categorias Ver',
+            'Marcas Ver',
         ]);
 
         // NIVEL 5: ASISTENTE INSTALADOR (Operativo)
@@ -282,6 +338,11 @@ class RolYPermisoSeeder extends Seeder
             'Ordenes Servicio Ver',
             'Clientes Ver',
             'Productos Ver',
+            // Módulo Stocks (solo lectura)
+            'Stocks Ver',
+            'Productos Ver',
+            'Categorias Ver',
+            'Marcas Ver',
         ]);
 
         // ============================================
@@ -297,6 +358,11 @@ class RolYPermisoSeeder extends Seeder
             'Facturas Ver', 'Facturas Crear', 'Facturas Editar', 'Facturas Anular',
             'Caja Ver', 'Caja Abrir', 'Caja Cerrar',
             'Inventario Ver', 'Productos Ver', 'Stock Ver',
+            // Módulo Stocks (para ver disponibilidad de productos)
+            'Stocks Ver',
+            'Productos Ver',
+            'Categorias Ver',
+            'Marcas Ver',
             'Reportes Ver', 'Reportes Ventas',
         ]);
 
@@ -308,6 +374,11 @@ class RolYPermisoSeeder extends Seeder
             'Cotizaciones Ver', 'Cotizaciones Crear', 'Cotizaciones Editar',
             'Facturas Ver', 'Facturas Crear',
             'Inventario Ver', 'Productos Ver', 'Stock Ver',
+            // Módulo Stocks (solo lectura)
+            'Stocks Ver',
+            'Productos Ver',
+            'Categorias Ver',
+            'Marcas Ver',
         ]);
 
         // NIVEL 5: CAJERO (Especializado)
@@ -318,6 +389,11 @@ class RolYPermisoSeeder extends Seeder
             'Facturas Ver', 'Facturas Crear',
             'Caja Ver', 'Caja Abrir', 'Caja Cerrar', 'Caja Cobrar',
             'Productos Ver',
+            // Módulo Stocks (solo lectura para consultar productos)
+            'Stocks Ver',
+            'Productos Ver',
+            'Categorias Ver',
+            'Marcas Ver',
         ]);
 
         // ============================================

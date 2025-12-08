@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             RolYPermisoSeeder::class,
+            ParaguayDemoSeeder::class,
             //PostSeeder::class,
             //CommentSeeder::class,
         ]);

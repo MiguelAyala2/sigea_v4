@@ -41,7 +41,7 @@ class LoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        if (Auth::attempt(['usuario' => $request->usuario, 'password' => $request->password, 'activo' => 1])) {            
+        if (Auth::attempt(['usuario' => $request->usuario, 'password' => $request->password, 'activo' => true])) {
             User::registrarAcceso(User::where('usuario', $request->usuario)->value('id'));
             return redirect()->route('home');
         }

@@ -95,6 +95,7 @@ return [
             'prefix_indexes' => true,
             'search_path' => 'empresa,public',
             'sslmode' => 'prefer',
+            'search_path' => 'stocks,empresa,public', //BUSCA LA CONEXCION DE LOS SCHEMAS
         ],
 
         'sqlsrv' => [
