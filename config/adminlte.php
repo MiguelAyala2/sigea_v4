@@ -385,6 +385,320 @@ return [
                 ]],
             ],
         ],
+        [
+            'text' => 'COMPRAS',
+            'icon' => 'fas fa-shopping-cart',
+            'can'  => 'compras.ver',
+            'submenu' => [
+                [
+                    'text' => 'Dashboard',
+                    'route' => 'compras.dashboard',
+                    'icon' => 'fas fa-tachometer-alt',
+                    'can' => 'compras.dashboard',
+                ],
+                [
+                    'text' => 'Proveedores',
+                    'route' => 'compras.proveedores.index',
+                    'icon' => 'fas fa-truck',
+                    'can' => 'Proveedores Ver',
+                ],
+                [
+                    'text' => 'Pedidos de Compra',
+                    'route' => 'compras.pedidos.index',
+                    'icon' => 'fas fa-clipboard-list',
+                    'can' => 'Proveedores Ver',
+                ],
+                [
+                    'text' => 'Presupuestos',
+                    'route' => 'compras.presupuestos.index',
+                    'icon' => 'fas fa-file-invoice-dollar',
+                    'can' => 'Proveedores Ver',
+                ],
+                [
+                    'text' => 'Órdenes de Compra',
+                    'route' => 'compras.ordenes.index',
+                    'icon' => 'fas fa-file-signature',
+                    'can' => 'Proveedores Ver',
+                ],
+                [
+                    'text' => 'Compras/Facturas',
+                    'route' => 'compras.compras.index',
+                    'icon' => 'fas fa-file-invoice',
+                    'can' => 'compras.compras.ver',
+                ],
+                [
+                    'text' => 'Notas de Crédito',
+                    'route' => 'compras.notas-credito.index',
+                    'icon' => 'fas fa-file-circle-minus',
+                    'can' => 'Proveedores Ver',
+                ],
+                [
+                    'text' => 'Notas de Débito',
+                    'route' => 'compras.notas-debito.index',
+                    'icon' => 'fas fa-file-circle-plus',
+                    'can' => 'Proveedores Ver',
+                ],
+                [
+                    'text' => 'Remisiones',
+                    'route' => 'compras.remisiones.index',
+                    'icon' => 'fas fa-truck-loading',
+                    'can' => 'Proveedores Ver',
+                ],
+                [
+                    'text' => 'Recepción Mercadería',
+                    'route' => 'compras.recepciones.index',
+                    'icon' => 'fas fa-box-open',
+                    'can' => 'compras.recepciones.ver',
+                ],
+                [
+                    'text' => 'Aprobaciones',
+                    'route' => 'compras.aprobaciones.pendientes',
+                    'icon' => 'fas fa-check-double',
+                    'can' => 'compras.aprobaciones.ver',
+                ],
+                [
+                    'text' => 'Cuentas por Pagar',
+                    'route' => 'compras.pagos.index',
+                    'icon' => 'fas fa-money-bill-wave',
+                    'can' => 'Proveedores Ver',
+                ],
+                [
+                    'text' => 'Reportes',
+                    'icon' => 'fas fa-chart-bar',
+                    'can' => 'compras.reportes.ver',
+                    'submenu' => [
+                        [
+                            'text' => 'Libro de Compras',
+                            'route' => 'compras.reportes.libro-compras',
+                            'icon' => 'fas fa-book',
+                            'can' => 'compras.reportes.libro',
+                        ],
+                        [
+                            'text' => 'Análisis Proveedores',
+                            'route' => 'compras.reportes.analisis-proveedores',
+                            'icon' => 'fas fa-chart-line',
+                            'can' => 'compras.reportes.analisis',
+                        ],
+                        [
+                            'text' => 'Flujo de Aprobaciones',
+                            'route' => 'compras.reportes.flujo-aprobaciones',
+                            'icon' => 'fas fa-project-diagram',
+                            'can' => 'compras.reportes.flujo',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        [
+            'text' => 'SERVICIOS',
+            'icon' => 'fas fa-tools',
+            'submenu' => [
+                [
+                    'text' => 'Clientes',
+                    'icon' => 'fas fa-users',
+                    'submenu' => [
+                        [
+                            'text' => 'Registrar Cliente',
+                            'route' => 'servicios.clientes.registrar',
+                            'icon' => 'fas fa-user-plus',
+                        ],
+                        [
+                            'text' => 'Historial de Servicios',
+                            'route' => 'servicios.clientes.historial',
+                            'icon' => 'fas fa-history',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Gestión de Servicios Técnicos',
+                    'icon' => 'fas fa-wrench',
+                    'submenu' => [
+                        [
+                            'text' => 'Solicitud de Servicio',
+                            'route' => 'servicios.solicitudes.index',
+                            'icon' => 'fas fa-clipboard-list',
+                        ],
+                        [
+                            'text' => 'Recepción de Equipo',
+                            'route' => 'servicios.recepcion.index',
+                            'icon' => 'fas fa-box-open',
+                        ],
+                        [
+                            'text' => 'Diagnóstico Técnico',
+                            'route' => 'servicios.diagnostico.index',
+                            'icon' => 'fas fa-stethoscope',
+                        ],
+                        [
+                            'text' => 'Presupuesto',
+                            'route' => 'servicios.presupuestos.index',
+                            'icon' => 'fas fa-file-invoice-dollar',
+                        ],
+                        [
+                            'text' => 'Orden de Servicio',
+                            'route' => 'servicios.ordenes.index',
+                            'icon' => 'fas fa-file-signature',
+                        ],
+                        [
+                            'text' => 'Entrega / Cierre',
+                            'route' => 'servicios.entrega.index',
+                            'icon' => 'fas fa-check-circle',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Promociones y Descuentos',
+                    'icon' => 'fas fa-percentage',
+                    'submenu' => [
+                        [
+                            'text' => 'Promociones',
+                            'route' => 'servicios.promociones.index',
+                            'icon' => 'fas fa-tags',
+                        ],
+                        [
+                            'text' => 'Descuentos',
+                            'route' => 'servicios.descuentos.index',
+                            'icon' => 'fas fa-percent',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Reclamos de Clientes',
+                    'icon' => 'fas fa-exclamation-triangle',
+                    'submenu' => [
+                        [
+                            'text' => 'Registrar Reclamo',
+                            'route' => 'servicios.reclamos.registrar',
+                            'icon' => 'fas fa-plus-circle',
+                        ],
+                        [
+                            'text' => 'Seguimiento',
+                            'route' => 'servicios.reclamos.seguimiento',
+                            'icon' => 'fas fa-search',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Informes Web',
+                    'route' => 'servicios.informes.index',
+                    'icon' => 'fas fa-chart-line',
+                ],
+            ],
+        ],
+        [
+            'text' => 'VENTAS Y COBROS',
+            'icon' => 'fas fa-cash-register',
+            'submenu' => [
+                [
+                    'text' => 'Caja',
+                    'icon' => 'fas fa-money-bill-wave',
+                    'submenu' => [
+                        [
+                            'text' => 'Apertura de Caja',
+                            'route' => 'ventas.caja.apertura',
+                            'icon' => 'fas fa-unlock',
+                        ],
+                        [
+                            'text' => 'Movimientos de Caja',
+                            'route' => 'ventas.caja.movimientos',
+                            'icon' => 'fas fa-exchange-alt',
+                        ],
+                        [
+                            'text' => 'Cierre de Caja',
+                            'route' => 'ventas.caja.cierre',
+                            'icon' => 'fas fa-lock',
+                        ],
+                        [
+                            'text' => 'Arqueo de Caja',
+                            'route' => 'ventas.caja.arqueo',
+                            'icon' => 'fas fa-calculator',
+                        ],
+                        [
+                            'text' => 'Recaudaciones a Depositar',
+                            'route' => 'ventas.caja.recaudaciones',
+                            'icon' => 'fas fa-university',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Pedidos de Clientes',
+                    'icon' => 'fas fa-shopping-cart',
+                    'submenu' => [
+                        [
+                            'text' => 'Registrar Pedido',
+                            'route' => 'ventas.pedidos.registrar',
+                            'icon' => 'fas fa-plus-circle',
+                        ],
+                        [
+                            'text' => 'Historial de Pedidos',
+                            'route' => 'ventas.pedidos.historial',
+                            'icon' => 'fas fa-list',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Ventas y Facturación',
+                    'icon' => 'fas fa-file-invoice-dollar',
+                    'submenu' => [
+                        [
+                            'text' => 'Generar Venta / Factura',
+                            'route' => 'ventas.facturacion.index',
+                            'icon' => 'fas fa-receipt',
+                        ],
+                        [
+                            'text' => 'Cuentas a Cobrar',
+                            'route' => 'ventas.cuentas-cobrar.index',
+                            'icon' => 'fas fa-hand-holding-usd',
+                        ],
+                        [
+                            'text' => 'Notas de Remisión',
+                            'route' => 'ventas.remisiones.index',
+                            'icon' => 'fas fa-truck',
+                        ],
+                        [
+                            'text' => 'Notas de Crédito',
+                            'route' => 'ventas.notas-credito.index',
+                            'icon' => 'fas fa-undo',
+                        ],
+                        [
+                            'text' => 'Notas de Débito',
+                            'route' => 'ventas.notas-debito.index',
+                            'icon' => 'fas fa-plus-square',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Cobranzas',
+                    'icon' => 'fas fa-coins',
+                    'submenu' => [
+                        [
+                            'text' => 'Registrar Cobranza',
+                            'route' => 'ventas.cobranzas.registrar',
+                            'icon' => 'fas fa-dollar-sign',
+                        ],
+                        [
+                            'text' => 'Cobranzas por Forma de Pago',
+                            'route' => 'ventas.cobranzas.forma-pago',
+                            'icon' => 'fas fa-credit-card',
+                        ],
+                        [
+                            'text' => 'Historial de Cobranzas',
+                            'route' => 'ventas.cobranzas.historial',
+                            'icon' => 'fas fa-history',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Libro de Ventas',
+                    'route' => 'ventas.libro-ventas.index',
+                    'icon' => 'fas fa-book',
+                ],
+                [
+                    'text' => 'Informes Web',
+                    'route' => 'ventas.informes.index',
+                    'icon' => 'fas fa-chart-pie',
+                ],
+            ],
+        ],
         // [
         //     'text' => 'blog',
         //     'url' => 'admin/blog',

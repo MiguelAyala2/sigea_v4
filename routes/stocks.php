@@ -46,6 +46,11 @@ Route::prefix('stock')
     Route::prefix('productos')->name('productos.')->group(function () {
         Route::get('/', [ProductoController::class, 'index'])->name('index');
         Route::get('/create', [ProductoController::class, 'create'])->name('create');
+
+        // Exportaciones
+        Route::get('/exportar-pdf', [ProductoController::class, 'exportarPDF'])->name('exportar-pdf');
+        Route::get('/exportar-excel', [ProductoController::class, 'exportarExcel'])->name('exportar-excel');
+
         Route::get('/{producto}', [ProductoController::class, 'show'])->name('show');
         Route::get('/{producto}/edit', [ProductoController::class, 'edit'])->name('edit');
         Route::get('/{producto}/kardex', [ProductoController::class, 'kardex'])->name('kardex');

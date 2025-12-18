@@ -127,6 +127,26 @@ class RolYPermisoSeeder extends Seeder
             'Marcas Editar',
             'Marcas Eliminar',
 
+            // PERMISOS MÓDULO COMPRAS (nuevos)
+            'compras.ver',
+            'compras.dashboard',
+            'compras.compras.ver',
+            'compras.compras.crear',
+            'compras.compras.editar',
+            'compras.compras.eliminar',
+            'compras.compras.anular',
+            'compras.recepciones.ver',
+            'compras.recepciones.crear',
+            'compras.recepciones.editar',
+            'compras.recepciones.eliminar',
+            'compras.aprobaciones.ver',
+            'compras.aprobaciones.aprobar',
+            'compras.aprobaciones.rechazar',
+            'compras.reportes.ver',
+            'compras.reportes.libro',
+            'compras.reportes.analisis',
+            'compras.reportes.flujo',
+
             // MÓDULO DE REPORTES
             'Reportes Ver',
             'Reportes Compras',
@@ -140,7 +160,10 @@ class RolYPermisoSeeder extends Seeder
         ];
 
         foreach ($permisos as $permiso) {
-            Permiso::create(['name' => $permiso]);
+            Permiso::firstOrCreate(
+                ['name' => $permiso],
+                ['guard_name' => 'web']
+            );
         }
 
         // ============================================
@@ -148,11 +171,11 @@ class RolYPermisoSeeder extends Seeder
         // ============================================
 
         // NIVEL 0: SUPER ADMINISTRADOR
-        $roleSuperAdmin = Rol::create(['name' => 'SuperAdmin']);
+        $roleSuperAdmin = Rol::firstOrCreate(['name' => 'SuperAdmin'], ['guard_name' => 'web']);
         $roleSuperAdmin->syncPermissions(Permiso::all());
 
         // NIVEL 1: ADMINISTRADOR DEL SISTEMA
-        $roleAdminSistema = Rol::create(['name' => 'Administrador del Sistema']);
+        $roleAdminSistema = Rol::firstOrCreate(['name' => 'Administrador del Sistema'], ['guard_name' => 'web']);
         $roleAdminSistema->syncPermissions([
             'Usuarios Ver', 'Usuarios Crear', 'Usuarios Editar', 'Usuarios Activar/Inactivar',
             'Usuarios Asignar Rol', 'Usuarios Reset Contraseña',
@@ -162,6 +185,13 @@ class RolYPermisoSeeder extends Seeder
             'Compras Ver', 'Compras Crear', 'Compras Editar', 'Compras Aprobar',
             'Proveedores Ver', 'Proveedores Crear', 'Proveedores Editar',
             'Ordenes Compra Ver', 'Ordenes Compra Crear', 'Ordenes Compra Editar', 'Ordenes Compra Aprobar',
+
+            // Permisos nuevos módulo Compras
+            'compras.ver', 'compras.dashboard',
+            'compras.compras.ver', 'compras.compras.crear', 'compras.compras.editar', 'compras.compras.eliminar', 'compras.compras.anular',
+            'compras.recepciones.ver', 'compras.recepciones.crear', 'compras.recepciones.editar', 'compras.recepciones.eliminar',
+            'compras.aprobaciones.ver', 'compras.aprobaciones.aprobar', 'compras.aprobaciones.rechazar',
+            'compras.reportes.ver', 'compras.reportes.libro', 'compras.reportes.analisis', 'compras.reportes.flujo',
 
             'Servicios Ver', 'Servicios Crear', 'Servicios Editar', 'Servicios Aprobar',
             'Instalaciones Ver', 'Instalaciones Crear', 'Instalaciones Editar', 'Instalaciones Ejecutar',
@@ -188,11 +218,18 @@ class RolYPermisoSeeder extends Seeder
         ]);
 
         // NIVEL 2: GERENTE GENERAL
-        $roleGerenteGeneral = Rol::create(['name' => 'Gerente General']);
+        $roleGerenteGeneral = Rol::firstOrCreate(['name' => 'Gerente General'], ['guard_name' => 'web']);
         $roleGerenteGeneral->syncPermissions([
             'Compras Ver', 'Compras Aprobar',
             'Proveedores Ver',
             'Ordenes Compra Ver', 'Ordenes Compra Aprobar',
+
+            // Permisos nuevos módulo Compras (Gerente General - solo ver y aprobar)
+            'compras.ver', 'compras.dashboard',
+            'compras.compras.ver',
+            'compras.recepciones.ver',
+            'compras.aprobaciones.ver', 'compras.aprobaciones.aprobar', 'compras.aprobaciones.rechazar',
+            'compras.reportes.ver', 'compras.reportes.libro', 'compras.reportes.analisis', 'compras.reportes.flujo',
 
             'Servicios Ver', 'Servicios Aprobar',
             'Instalaciones Ver',
@@ -218,11 +255,18 @@ class RolYPermisoSeeder extends Seeder
         ]);
 
         // NIVEL 2: SUPERVISOR GENERAL
-        $roleSupervisorGeneral = Rol::create(['name' => 'Supervisor General']);
+        $roleSupervisorGeneral = Rol::firstOrCreate(['name' => 'Supervisor General'], ['guard_name' => 'web']);
         $roleSupervisorGeneral->syncPermissions([
             'Compras Ver', 'Compras Aprobar',
             'Proveedores Ver',
             'Ordenes Compra Ver', 'Ordenes Compra Aprobar',
+
+            // Permisos nuevos módulo Compras (Supervisor General - ver y aprobar)
+            'compras.ver', 'compras.dashboard',
+            'compras.compras.ver',
+            'compras.recepciones.ver',
+            'compras.aprobaciones.ver', 'compras.aprobaciones.aprobar', 'compras.aprobaciones.rechazar',
+            'compras.reportes.ver', 'compras.reportes.libro', 'compras.reportes.analisis', 'compras.reportes.flujo',
 
             'Servicios Ver', 'Servicios Aprobar',
             'Instalaciones Ver',
@@ -252,11 +296,19 @@ class RolYPermisoSeeder extends Seeder
         // ============================================
 
         // NIVEL 3: ENCARGADO DE COMPRAS (Único Aprobador)
-        $roleEncargadoCompras = Rol::create(['name' => 'Encargado de Compras']);
+        $roleEncargadoCompras = Rol::firstOrCreate(['name' => 'Encargado de Compras'], ['guard_name' => 'web']);
         $roleEncargadoCompras->syncPermissions([
             'Compras Ver', 'Compras Crear', 'Compras Editar', 'Compras Aprobar',
             'Proveedores Ver', 'Proveedores Crear', 'Proveedores Editar',
             'Ordenes Compra Ver', 'Ordenes Compra Crear', 'Ordenes Compra Editar', 'Ordenes Compra Aprobar',
+
+            // Permisos nuevos módulo Compras (acceso completo)
+            'compras.ver', 'compras.dashboard',
+            'compras.compras.ver', 'compras.compras.crear', 'compras.compras.editar', 'compras.compras.eliminar', 'compras.compras.anular',
+            'compras.recepciones.ver', 'compras.recepciones.crear', 'compras.recepciones.editar', 'compras.recepciones.eliminar',
+            'compras.aprobaciones.ver', 'compras.aprobaciones.aprobar', 'compras.aprobaciones.rechazar',
+            'compras.reportes.ver', 'compras.reportes.libro', 'compras.reportes.analisis', 'compras.reportes.flujo',
+
             'Inventario Ver', 'Productos Ver', 'Stock Ver',
             // Módulo Stocks (acceso completo)
             'Stocks Ver', 'Stocks Crear', 'Stocks Editar',
@@ -267,11 +319,19 @@ class RolYPermisoSeeder extends Seeder
         ]);
 
         // NIVEL 4: SUPERVISOR DE COMPRAS (Revisor)
-        $roleSupervisorCompras = Rol::create(['name' => 'Supervisor de Compras']);
+        $roleSupervisorCompras = Rol::firstOrCreate(['name' => 'Supervisor de Compras'], ['guard_name' => 'web']);
         $roleSupervisorCompras->syncPermissions([
             'Compras Ver', 'Compras Crear', 'Compras Editar', 'Compras Revisar',
             'Proveedores Ver', 'Proveedores Crear', 'Proveedores Editar',
             'Ordenes Compra Ver', 'Ordenes Compra Crear', 'Ordenes Compra Editar',
+
+            // Permisos nuevos módulo Compras (sin eliminar/anular)
+            'compras.ver', 'compras.dashboard',
+            'compras.compras.ver', 'compras.compras.crear', 'compras.compras.editar',
+            'compras.recepciones.ver', 'compras.recepciones.crear', 'compras.recepciones.editar',
+            'compras.aprobaciones.ver',
+            'compras.reportes.ver', 'compras.reportes.libro', 'compras.reportes.analisis',
+
             'Inventario Ver', 'Productos Ver', 'Stock Ver',
             // Módulo Stocks
             'Stocks Ver', 'Stocks Crear', 'Stocks Editar',
@@ -282,11 +342,18 @@ class RolYPermisoSeeder extends Seeder
         ]);
 
         // NIVEL 5: ASISTENTE DE COMPRAS (Ejecutor)
-        $roleAsistenteCompras = Rol::create(['name' => 'Asistente de Compras']);
+        $roleAsistenteCompras = Rol::firstOrCreate(['name' => 'Asistente de Compras'], ['guard_name' => 'web']);
         $roleAsistenteCompras->syncPermissions([
             'Compras Ver', 'Compras Crear',
             'Proveedores Ver', 'Proveedores Crear',
             'Ordenes Compra Ver', 'Ordenes Compra Crear',
+
+            // Permisos nuevos módulo Compras (solo ver y crear)
+            'compras.ver', 'compras.dashboard',
+            'compras.compras.ver', 'compras.compras.crear',
+            'compras.recepciones.ver', 'compras.recepciones.crear',
+            'compras.aprobaciones.ver',
+
             'Inventario Ver', 'Productos Ver',
             // Módulo Stocks (solo lectura)
             'Stocks Ver',
@@ -300,7 +367,7 @@ class RolYPermisoSeeder extends Seeder
         // ============================================
 
         // NIVEL 3: ENCARGADO DE SERVICIOS (Único Aprobador)
-        $roleEncargadoServicios = Rol::create(['name' => 'Encargado de Servicios']);
+        $roleEncargadoServicios = Rol::firstOrCreate(['name' => 'Encargado de Servicios'], ['guard_name' => 'web']);
         $roleEncargadoServicios->syncPermissions([
             'Servicios Ver', 'Servicios Crear', 'Servicios Editar', 'Servicios Aprobar',
             'Instalaciones Ver', 'Instalaciones Crear', 'Instalaciones Editar', 'Instalaciones Ejecutar',
@@ -316,7 +383,7 @@ class RolYPermisoSeeder extends Seeder
         ]);
 
         // NIVEL 4: SUPERVISOR TÉCNICO (Ejecutor)
-        $roleSupervisorTecnico = Rol::create(['name' => 'Supervisor Técnico']);
+        $roleSupervisorTecnico = Rol::firstOrCreate(['name' => 'Supervisor Técnico'], ['guard_name' => 'web']);
         $roleSupervisorTecnico->syncPermissions([
             'Servicios Ver', 'Servicios Crear', 'Servicios Editar',
             'Instalaciones Ver', 'Instalaciones Crear', 'Instalaciones Editar', 'Instalaciones Ejecutar',
@@ -331,7 +398,7 @@ class RolYPermisoSeeder extends Seeder
         ]);
 
         // NIVEL 5: ASISTENTE INSTALADOR (Operativo)
-        $roleAsistenteInstalador = Rol::create(['name' => 'Asistente Instalador']);
+        $roleAsistenteInstalador = Rol::firstOrCreate(['name' => 'Asistente Instalador'], ['guard_name' => 'web']);
         $roleAsistenteInstalador->syncPermissions([
             'Servicios Ver',
             'Instalaciones Ver', 'Instalaciones Ejecutar',
@@ -350,7 +417,7 @@ class RolYPermisoSeeder extends Seeder
         // ============================================
 
         // NIVEL 3: ENCARGADO DE VENTAS (Único Aprobador)
-        $roleEncargadoVentas = Rol::create(['name' => 'Encargado de Ventas']);
+        $roleEncargadoVentas = Rol::firstOrCreate(['name' => 'Encargado de Ventas'], ['guard_name' => 'web']);
         $roleEncargadoVentas->syncPermissions([
             'Ventas Ver', 'Ventas Crear', 'Ventas Editar', 'Ventas Aprobar',
             'Clientes Ver', 'Clientes Crear', 'Clientes Editar',
@@ -367,7 +434,7 @@ class RolYPermisoSeeder extends Seeder
         ]);
 
         // NIVEL 4: ASISTENTE DE VENTAS
-        $roleAsistenteVentas = Rol::create(['name' => 'Asistente de Ventas']);
+        $roleAsistenteVentas = Rol::firstOrCreate(['name' => 'Asistente de Ventas'], ['guard_name' => 'web']);
         $roleAsistenteVentas->syncPermissions([
             'Ventas Ver', 'Ventas Crear', 'Ventas Editar',
             'Clientes Ver', 'Clientes Crear', 'Clientes Editar',
@@ -382,7 +449,7 @@ class RolYPermisoSeeder extends Seeder
         ]);
 
         // NIVEL 5: CAJERO (Especializado)
-        $roleCajero = Rol::create(['name' => 'Cajero']);
+        $roleCajero = Rol::firstOrCreate(['name' => 'Cajero'], ['guard_name' => 'web']);
         $roleCajero->syncPermissions([
             'Ventas Ver',
             'Clientes Ver',
@@ -400,108 +467,136 @@ class RolYPermisoSeeder extends Seeder
         // CREAR USUARIO SUPER ADMINISTRADOR
         // ============================================
 
-        $userSuperAdmin = User::create([
-            'name' => 'Super Administrador',
-            'usuario' => 'superadmin',
-            'email' => 'superadmin@sigea.com',
-            'nro_cedula' => '0000000',
-            'nro_celular' => '0000000000',
-            'observacion' => 'SUPER ADMINISTRADOR DEL SISTEMA - ACCESO TOTAL',
-            'password' => Hash::make('superadmin123'),
-            'activo' => true,
-            'ultimo_acceso' => null,
-        ]);
-        $userSuperAdmin->assignRole($roleSuperAdmin);
+        $userSuperAdmin = User::firstOrCreate(
+            ['usuario' => 'superadmin'],
+            [
+                'name' => 'Super Administrador',
+                'email' => 'superadmin@sigea.com',
+                'nro_cedula' => '0000000',
+                'nro_celular' => '0000000000',
+                'observacion' => 'SUPER ADMINISTRADOR DEL SISTEMA - ACCESO TOTAL',
+                'password' => Hash::make('superadmin123'),
+                'activo' => true,
+                'ultimo_acceso' => null,
+            ]
+        );
+        if (!$userSuperAdmin->hasRole($roleSuperAdmin)) {
+            $userSuperAdmin->assignRole($roleSuperAdmin);
+        }
 
         // ============================================
         // CREAR USUARIO ADMINISTRADOR DEL SISTEMA
         // ============================================
 
-        $userAdmin = User::create([
-            'name' => 'Administrador',
-            'usuario' => 'administrador',
-            'email' => 'ronaldalexisniznunez@gmail.com',
-            'nro_cedula' => '1234567',
-            'nro_celular' => '0981234567',
-            'observacion' => 'ADMINISTRADOR DEL SISTEMA',
-            'password' => Hash::make('Rann2006'),
-            'activo' => true,
-            'ultimo_acceso' => null,
-        ]);
-        $userAdmin->assignRole($roleAdminSistema);
+        $userAdmin = User::firstOrCreate(
+            ['usuario' => 'administrador'],
+            [
+                'name' => 'Administrador',
+                'email' => 'ronaldalexisniznunez@gmail.com',
+                'nro_cedula' => '1234567',
+                'nro_celular' => '0981234567',
+                'observacion' => 'ADMINISTRADOR DEL SISTEMA',
+                'password' => Hash::make('Rann2006'),
+                'activo' => true,
+                'ultimo_acceso' => null,
+            ]
+        );
+        if (!$userAdmin->hasRole($roleAdminSistema)) {
+            $userAdmin->assignRole($roleAdminSistema);
+        }
 
         // ============================================
         // USUARIOS DE EJEMPLO POR ROL
         // ============================================
 
         // Gerente General
-        $userGerente = User::create([
-            'name' => 'Juan Pérez',
-            'usuario' => 'gerente.general',
-            'email' => 'gerente@sigea.com',
-            'nro_cedula' => '2000001',
-            'nro_celular' => '0981000001',
-            'observacion' => 'GERENTE GENERAL',
-            'password' => Hash::make('12345678'),
-            'activo' => true,
-            'ultimo_acceso' => null,
-        ]);
-        $userGerente->assignRole($roleGerenteGeneral);
+        $userGerente = User::firstOrCreate(
+            ['usuario' => 'gerente.general'],
+            [
+                'name' => 'Juan Pérez',
+                'email' => 'gerente@sigea.com',
+                'nro_cedula' => '2000001',
+                'nro_celular' => '0981000001',
+                'observacion' => 'GERENTE GENERAL',
+                'password' => Hash::make('12345678'),
+                'activo' => true,
+                'ultimo_acceso' => null,
+            ]
+        );
+        if (!$userGerente->hasRole($roleGerenteGeneral)) {
+            $userGerente->assignRole($roleGerenteGeneral);
+        }
 
         // Encargado de Compras
-        $userEncargadoCompras = User::create([
-            'name' => 'María González',
-            'usuario' => 'encargado.compras',
-            'email' => 'compras@sigea.com',
-            'nro_cedula' => '3000001',
-            'nro_celular' => '0981000002',
-            'observacion' => 'ENCARGADO DE COMPRAS',
-            'password' => Hash::make('12345678'),
-            'activo' => true,
-            'ultimo_acceso' => null,
-        ]);
-        $userEncargadoCompras->assignRole($roleEncargadoCompras);
+        $userEncargadoCompras = User::firstOrCreate(
+            ['usuario' => 'encargado.compras'],
+            [
+                'name' => 'María González',
+                'email' => 'compras@sigea.com',
+                'nro_cedula' => '3000001',
+                'nro_celular' => '0981000002',
+                'observacion' => 'ENCARGADO DE COMPRAS',
+                'password' => Hash::make('12345678'),
+                'activo' => true,
+                'ultimo_acceso' => null,
+            ]
+        );
+        if (!$userEncargadoCompras->hasRole($roleEncargadoCompras)) {
+            $userEncargadoCompras->assignRole($roleEncargadoCompras);
+        }
 
         // Encargado de Servicios
-        $userEncargadoServicios = User::create([
-            'name' => 'Carlos Ramírez',
-            'usuario' => 'encargado.servicios',
-            'email' => 'servicios@sigea.com',
-            'nro_cedula' => '4000001',
-            'nro_celular' => '0981000003',
-            'observacion' => 'ENCARGADO DE SERVICIOS',
-            'password' => Hash::make('12345678'),
-            'activo' => true,
-            'ultimo_acceso' => null,
-        ]);
-        $userEncargadoServicios->assignRole($roleEncargadoServicios);
+        $userEncargadoServicios = User::firstOrCreate(
+            ['usuario' => 'encargado.servicios'],
+            [
+                'name' => 'Carlos Ramírez',
+                'email' => 'servicios@sigea.com',
+                'nro_cedula' => '4000001',
+                'nro_celular' => '0981000003',
+                'observacion' => 'ENCARGADO DE SERVICIOS',
+                'password' => Hash::make('12345678'),
+                'activo' => true,
+                'ultimo_acceso' => null,
+            ]
+        );
+        if (!$userEncargadoServicios->hasRole($roleEncargadoServicios)) {
+            $userEncargadoServicios->assignRole($roleEncargadoServicios);
+        }
 
         // Encargado de Ventas
-        $userEncargadoVentas = User::create([
-            'name' => 'Ana Martínez',
-            'usuario' => 'encargado.ventas',
-            'email' => 'ventas@sigea.com',
-            'nro_cedula' => '5000001',
-            'nro_celular' => '0981000004',
-            'observacion' => 'ENCARGADO DE VENTAS',
-            'password' => Hash::make('12345678'),
-            'activo' => true,
-            'ultimo_acceso' => null,
-        ]);
-        $userEncargadoVentas->assignRole($roleEncargadoVentas);
+        $userEncargadoVentas = User::firstOrCreate(
+            ['usuario' => 'encargado.ventas'],
+            [
+                'name' => 'Ana Martínez',
+                'email' => 'ventas@sigea.com',
+                'nro_cedula' => '5000001',
+                'nro_celular' => '0981000004',
+                'observacion' => 'ENCARGADO DE VENTAS',
+                'password' => Hash::make('12345678'),
+                'activo' => true,
+                'ultimo_acceso' => null,
+            ]
+        );
+        if (!$userEncargadoVentas->hasRole($roleEncargadoVentas)) {
+            $userEncargadoVentas->assignRole($roleEncargadoVentas);
+        }
 
         // Cajero
-        $userCajero = User::create([
-            'name' => 'Luis Torres',
-            'usuario' => 'cajero',
-            'email' => 'cajero@sigea.com',
-            'nro_cedula' => '6000001',
-            'nro_celular' => '0981000005',
-            'observacion' => 'CAJERO',
-            'password' => Hash::make('12345678'),
-            'activo' => true,
-            'ultimo_acceso' => null,
-        ]);
-        $userCajero->assignRole($roleCajero);
+        $userCajero = User::firstOrCreate(
+            ['usuario' => 'cajero'],
+            [
+                'name' => 'Luis Torres',
+                'email' => 'cajero@sigea.com',
+                'nro_cedula' => '6000001',
+                'nro_celular' => '0981000005',
+                'observacion' => 'CAJERO',
+                'password' => Hash::make('12345678'),
+                'activo' => true,
+                'ultimo_acceso' => null,
+            ]
+        );
+        if (!$userCajero->hasRole($roleCajero)) {
+            $userCajero->assignRole($roleCajero);
+        }
     }
 }

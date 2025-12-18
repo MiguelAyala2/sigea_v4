@@ -1,4 +1,4 @@
-# GRUPO SERVIPAR
+# SIGEA
 
 ## Tecnologías
 - Laravel 12
@@ -16,7 +16,7 @@
 1. Clona el repositorio:
 
     ```bash
-    git clone https://github.com/rniz06/grupo-servipar.git
+    git clone https://github.com/MiguelAyala2/sigea_v4.git
     ```
 
 2. En el directorio Instala las dependencias de Composer:

@@ -93,9 +93,9 @@ return [
             'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
-            'search_path' => 'empresa,public',
+            'search_path' => 'public,compras,stock,empresa',
             'sslmode' => 'prefer',
-            'search_path' => 'stocks,empresa,public', //BUSCA LA CONEXCION DE LOS SCHEMAS
+            // search_path: El orden importa - 'public' debe estar primero para evitar que las tablas del sistema se creen en otros schemas
         ],
 
         'sqlsrv' => [
