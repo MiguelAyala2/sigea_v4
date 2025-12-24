@@ -498,6 +498,11 @@ return [
                     'icon' => 'fas fa-users',
                     'submenu' => [
                         [
+                            'text' => 'Listar Clientes',
+                            'route' => 'servicios.clientes.index',
+                            'icon' => 'fas fa-list',
+                        ],
+                        [
                             'text' => 'Registrar Cliente',
                             'route' => 'servicios.clientes.registrar',
                             'icon' => 'fas fa-user-plus',
@@ -513,6 +518,11 @@ return [
                     'text' => 'Gestión de Servicios Técnicos',
                     'icon' => 'fas fa-wrench',
                     'submenu' => [
+                        [
+                            'text' => 'Tipos de Servicios',
+                            'route' => 'servicios.tipos-servicio.index',
+                            'icon' => 'fas fa-list-ul',
+                        ],
                         [
                             'text' => 'Solicitud de Servicio',
                             'route' => 'servicios.solicitudes.index',
@@ -920,5 +930,5 @@ return [
     |
     */
 
-    'livewire' => false,
+    'livewire' => true,
 ];

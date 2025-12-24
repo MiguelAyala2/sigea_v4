@@ -93,7 +93,7 @@ return [
             'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
-            'search_path' => 'public,compras,stock,empresa',
+            'search_path' => 'public,compras,stock,empresa,servicios',
             'sslmode' => 'prefer',
             // search_path: El orden importa - 'public' debe estar primero para evitar que las tablas del sistema se creen en otros schemas
         ],

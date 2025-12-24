@@ -9,6 +9,89 @@ class PedidoCompraSeeder extends Seeder
 {
     public function run(): void
     {
+        // Verificar y crear productos básicos si no existen
+        $productos = [];
+
+        // Producto 1: Tubo PVC
+        $producto1 = DB::table('stock.PRODUCTOS')->where('codigo', 'PRD-000001')->first();
+        if (!$producto1) {
+            $productos[1] = DB::table('stock.PRODUCTOS')->insertGetId([
+                'codigo' => 'PRD-000001',
+                'nombre' => 'Tubo PVC 1/2"',
+                'descripcion' => 'Tubo PVC para agua fría',
+                'marca_id' => 1,
+                'categoria_id' => 1,
+                'unidad_medida_id' => 1,
+                'stock_minimo' => 10,
+                'activo' => true,
+                'creadoPor' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        } else {
+            $productos[1] = $producto1->id;
+        }
+
+        // Producto 2: Codo PVC
+        $producto2 = DB::table('stock.PRODUCTOS')->where('codigo', 'PRD-000002')->first();
+        if (!$producto2) {
+            $productos[2] = DB::table('stock.PRODUCTOS')->insertGetId([
+                'codigo' => 'PRD-000002',
+                'nombre' => 'Codo PVC 90° 1/2"',
+                'descripcion' => 'Codo PVC 90 grados',
+                'marca_id' => 1,
+                'categoria_id' => 1,
+                'unidad_medida_id' => 1,
+                'stock_minimo' => 10,
+                'activo' => true,
+                'creadoPor' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        } else {
+            $productos[2] = $producto2->id;
+        }
+
+        // Producto 3: Tee PVC
+        $producto3 = DB::table('stock.PRODUCTOS')->where('codigo', 'PRD-000003')->first();
+        if (!$producto3) {
+            $productos[3] = DB::table('stock.PRODUCTOS')->insertGetId([
+                'codigo' => 'PRD-000003',
+                'nombre' => 'Tee PVC 1/2"',
+                'descripcion' => 'Conexión tipo T PVC',
+                'marca_id' => 1,
+                'categoria_id' => 1,
+                'unidad_medida_id' => 1,
+                'stock_minimo' => 20,
+                'activo' => true,
+                'creadoPor' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        } else {
+            $productos[3] = $producto3->id;
+        }
+
+        // Producto 4: Llave de paso
+        $producto4 = DB::table('stock.PRODUCTOS')->where('codigo', 'PRD-000004')->first();
+        if (!$producto4) {
+            $productos[4] = DB::table('stock.PRODUCTOS')->insertGetId([
+                'codigo' => 'PRD-000004',
+                'nombre' => 'Llave de paso 1/2"',
+                'descripcion' => 'Llave de paso metálica',
+                'marca_id' => 1,
+                'categoria_id' => 1,
+                'unidad_medida_id' => 1,
+                'stock_minimo' => 15,
+                'activo' => true,
+                'creadoPor' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        } else {
+            $productos[4] = $producto4->id;
+        }
+
         // Pedido 1: Reposición de Stock
         $pedido1 = DB::table('compras.pedidos_compra')->insertGetId([
             'numero_pedido' => 'PC-000001',
@@ -34,7 +117,7 @@ class PedidoCompraSeeder extends Seeder
         DB::table('compras.pedidos_compra_detalle')->insert([
             [
                 'pedido_compra_id' => $pedido1,
-                'producto_id' => 1,
+                'producto_id' => $productos[1],
                 'cantidad_solicitada' => 20,
                 'cantidad_aprobada' => 0,
                 'precio_estimado' => 15000,
@@ -48,7 +131,7 @@ class PedidoCompraSeeder extends Seeder
             ],
             [
                 'pedido_compra_id' => $pedido1,
-                'producto_id' => 3,
+                'producto_id' => $productos[3],
                 'cantidad_solicitada' => 30,
                 'cantidad_aprobada' => 0,
                 'precio_estimado' => 5000,
@@ -88,7 +171,7 @@ class PedidoCompraSeeder extends Seeder
         DB::table('compras.pedidos_compra_detalle')->insert([
             [
                 'pedido_compra_id' => $pedido2,
-                'producto_id' => 4,
+                'producto_id' => $productos[4],
                 'cantidad_solicitada' => 2,
                 'cantidad_aprobada' => 2,
                 'precio_estimado' => 45000,
@@ -128,7 +211,7 @@ class PedidoCompraSeeder extends Seeder
         DB::table('compras.pedidos_compra_detalle')->insert([
             [
                 'pedido_compra_id' => $pedido3,
-                'producto_id' => 1,
+                'producto_id' => $productos[1],
                 'cantidad_solicitada' => 50,
                 'cantidad_aprobada' => 50,
                 'cantidad_ordenada' => 50,
@@ -143,7 +226,7 @@ class PedidoCompraSeeder extends Seeder
             ],
             [
                 'pedido_compra_id' => $pedido3,
-                'producto_id' => 2,
+                'producto_id' => $productos[2],
                 'cantidad_solicitada' => 30,
                 'cantidad_aprobada' => 30,
                 'cantidad_ordenada' => 0,
@@ -158,126 +241,6 @@ class PedidoCompraSeeder extends Seeder
             ],
         ]);
 
-        // Pedido 4: Mantenimiento
-        $pedido4 = DB::table('compras.pedidos_compra')->insertGetId([
-            'numero_pedido' => 'PC-000004',
-            'fecha_pedido' => now()->subDays(10),
-            'fecha_necesaria' => now()->addDays(15),
-            'sucursal_id' => 3,
-            'deposito_destino_id' => 3,
-            'usuario_solicitante_id' => 1,
-            'tipo_pedido' => 'MANTENIMIENTO',
-            'prioridad' => 'CRITICA',
-            'estado' => 'EN_COTIZACION',
-            'total_estimado' => 550000,
-            'porcentaje_ordenado' => 0,
-            'observaciones' => 'Reparación de instalaciones sanitarias sucursal Ñemby',
-            'urgente' => true,
-            'activo' => true,
-            'creadoPor' => 1,
-            'aprobadoPor' => 1,
-            'aprobado_en' => now()->subDays(9),
-            'created_at' => now()->subDays(10),
-            'updated_at' => now()->subDays(8),
-        ]);
-
-        DB::table('compras.pedidos_compra_detalle')->insert([
-            [
-                'pedido_compra_id' => $pedido4,
-                'producto_id' => 2,
-                'cantidad_solicitada' => 15,
-                'cantidad_aprobada' => 15,
-                'precio_estimado' => 22000,
-                'stock_actual' => 75,
-                'stock_minimo' => 10,
-                'subtotal_estimado' => 330000,
-                'estado' => 'APROBADO',
-                'creadoPor' => 1,
-                'created_at' => now()->subDays(10),
-                'updated_at' => now()->subDays(10),
-            ],
-            [
-                'pedido_compra_id' => $pedido4,
-                'producto_id' => 3,
-                'cantidad_solicitada' => 44,
-                'cantidad_aprobada' => 44,
-                'precio_estimado' => 5000,
-                'stock_actual' => 150,
-                'stock_minimo' => 20,
-                'subtotal_estimado' => 220000,
-                'estado' => 'APROBADO',
-                'creadoPor' => 1,
-                'created_at' => now()->subDays(10),
-                'updated_at' => now()->subDays(10),
-            ],
-        ]);
-
-        // Pedido 5: Insumos
-        $pedido5 = DB::table('compras.pedidos_compra')->insertGetId([
-            'numero_pedido' => 'PC-000005',
-            'fecha_pedido' => now()->subDay(),
-            'fecha_necesaria' => now()->addDays(20),
-            'sucursal_id' => 1,
-            'deposito_destino_id' => 1,
-            'usuario_solicitante_id' => 1,
-            'tipo_pedido' => 'INSUMOS',
-            'prioridad' => 'NORMAL',
-            'estado' => 'BORRADOR',
-            'total_estimado' => 705000,
-            'porcentaje_ordenado' => 0,
-            'observaciones' => 'Insumos generales para todas las sucursales',
-            'urgente' => false,
-            'activo' => true,
-            'creadoPor' => 1,
-            'created_at' => now()->subDay(),
-            'updated_at' => now()->subDay(),
-        ]);
-
-        DB::table('compras.pedidos_compra_detalle')->insert([
-            [
-                'pedido_compra_id' => $pedido5,
-                'producto_id' => 1,
-                'cantidad_solicitada' => 15,
-                'cantidad_aprobada' => 0,
-                'precio_estimado' => 15000,
-                'stock_actual' => 100,
-                'stock_minimo' => 10,
-                'subtotal_estimado' => 225000,
-                'estado' => 'PENDIENTE',
-                'creadoPor' => 1,
-                'created_at' => now()->subDay(),
-                'updated_at' => now()->subDay(),
-            ],
-            [
-                'pedido_compra_id' => $pedido5,
-                'producto_id' => 3,
-                'cantidad_solicitada' => 60,
-                'cantidad_aprobada' => 0,
-                'precio_estimado' => 5000,
-                'stock_actual' => 150,
-                'stock_minimo' => 20,
-                'subtotal_estimado' => 300000,
-                'estado' => 'PENDIENTE',
-                'creadoPor' => 1,
-                'created_at' => now()->subDay(),
-                'updated_at' => now()->subDay(),
-            ],
-            [
-                'pedido_compra_id' => $pedido5,
-                'producto_id' => 4,
-                'cantidad_solicitada' => 4,
-                'cantidad_aprobada' => 0,
-                'precio_estimado' => 45000,
-                'stock_actual' => 50,
-                'stock_minimo' => 15,
-                'subtotal_estimado' => 180000,
-                'estado' => 'PENDIENTE',
-                'creadoPor' => 1,
-                'created_at' => now()->subDay(),
-                'updated_at' => now()->subDay(),
-            ],
-        ]);
-
-        $this->command->info('✓ 5 pedidos de compra creados con sus detalles exitosamente');
+        $this->command->info('✓ Pedidos de compra creados exitosamente');
     }
 }
