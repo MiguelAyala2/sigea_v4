@@ -4,7 +4,7 @@ namespace App\Livewire\Compras;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Compras\Compra;
+use App\Models\Compras\CuentaPorPagar;
 
 class PagoLista extends Component
 {
@@ -35,12 +35,12 @@ class PagoLista extends Component
 
     public function render()
     {
-        // Obtener solo las compras APROBADAS
-        $compras = Compra::with(['proveedor', 'creadoPorUsuario'])
-            ->where('estado', 'APROBADO')
+        // Obtener todas las cuentas por pagar (incluye facturas y notas de crédito)
+        $cuentas = CuentaPorPagar::with(['proveedor', 'compra', 'creador'])
+            ->whereIn('estado', ['PENDIENTE', 'PARCIALMENTE_PAGADO', 'APLICADA'])
             ->when($this->search, function($query) {
                 $query->where(function($q) {
-                    $q->where('numero_factura', 'ILIKE', '%' . $this->search . '%')
+                    $q->where('numero_documento', 'ILIKE', '%' . $this->search . '%')
                       ->orWhereHas('proveedor', function($prov) {
                           $prov->where('razon_social', 'ILIKE', '%' . $this->search . '%')
                                ->orWhere('ruc', 'ILIKE', '%' . $this->search . '%');
@@ -56,11 +56,11 @@ class PagoLista extends Component
             ->orderBy('fecha_emision', 'desc')
             ->paginate(15);
 
-        // Calcular el total de todas las compras aprobadas (sin paginación para el total general)
-        $totalGeneral = Compra::where('estado', 'APROBADO')
+        // Calcular el total neto (facturas positivas - notas de crédito negativas)
+        $totalGeneral = CuentaPorPagar::whereIn('estado', ['PENDIENTE', 'PARCIALMENTE_PAGADO', 'APLICADA'])
             ->when($this->search, function($query) {
                 $query->where(function($q) {
-                    $q->where('numero_factura', 'ILIKE', '%' . $this->search . '%')
+                    $q->where('numero_documento', 'ILIKE', '%' . $this->search . '%')
                       ->orWhereHas('proveedor', function($prov) {
                           $prov->where('razon_social', 'ILIKE', '%' . $this->search . '%')
                                ->orWhere('ruc', 'ILIKE', '%' . $this->search . '%');
@@ -73,10 +73,10 @@ class PagoLista extends Component
             ->when($this->fecha_hasta, function($query) {
                 $query->whereDate('fecha_emision', '<=', $this->fecha_hasta);
             })
-            ->sum('total');
+            ->sum('saldo_pendiente');
 
         return view('livewire.compras.pago-lista', [
-            'compras' => $compras,
+            'cuentas' => $cuentas,
             'totalGeneral' => $totalGeneral,
         ]);
     }

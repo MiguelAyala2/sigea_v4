@@ -163,10 +163,21 @@ Route::middleware(['auth', 'verified'])->prefix('compras')->name('compras.')->gr
             ->name('create')->middleware('can:Proveedores Crear');
         Route::post('/', [NotaCreditoController::class, 'store'])
             ->name('store')->middleware('can:Proveedores Crear');
+
+        // API para cargar compras por proveedor y fecha
+        Route::get('/api/compras-por-proveedor-fecha', [NotaCreditoController::class, 'getComprasByProveedorFecha'])
+            ->name('api.compras-por-proveedor-fecha');
+
+        // API para obtener detalles de una compra
+        Route::get('/api/compra/{compraId}/detalles', [NotaCreditoController::class, 'getDetallesCompra'])
+            ->name('api.compra.detalles');
+
         Route::get('/{notaCredito}', [NotaCreditoController::class, 'show'])
             ->name('show')->middleware('can:Proveedores Ver');
         Route::get('/{notaCredito}/editar', [NotaCreditoController::class, 'edit'])
             ->name('edit')->middleware('can:Proveedores Editar');
+        Route::put('/{notaCredito}', [NotaCreditoController::class, 'update'])
+            ->name('update')->middleware('can:Proveedores Editar');
         Route::post('/{notaCredito}/aplicar', [NotaCreditoController::class, 'aplicar'])
             ->name('aplicar')->middleware('can:Proveedores Editar');
         Route::post('/{notaCredito}/anular', [NotaCreditoController::class, 'anular'])
@@ -183,10 +194,21 @@ Route::middleware(['auth', 'verified'])->prefix('compras')->name('compras.')->gr
             ->name('create')->middleware('can:Proveedores Crear');
         Route::post('/', [NotaDebitoController::class, 'store'])
             ->name('store')->middleware('can:Proveedores Crear');
+
+        // API para cargar compras por proveedor y fecha
+        Route::get('/api/compras-por-proveedor-fecha', [NotaDebitoController::class, 'getComprasByProveedorFecha'])
+            ->name('api.compras-por-proveedor-fecha');
+
+        // API para obtener detalles de una compra
+        Route::get('/api/compra/{compraId}/detalles', [NotaDebitoController::class, 'getDetallesCompra'])
+            ->name('api.compra.detalles');
+
         Route::get('/{notaDebito}', [NotaDebitoController::class, 'show'])
             ->name('show')->middleware('can:Proveedores Ver');
         Route::get('/{notaDebito}/editar', [NotaDebitoController::class, 'edit'])
             ->name('edit')->middleware('can:Proveedores Editar');
+        Route::put('/{notaDebito}', [NotaDebitoController::class, 'update'])
+            ->name('update')->middleware('can:Proveedores Editar');
         Route::post('/{notaDebito}/aplicar', [NotaDebitoController::class, 'aplicar'])
             ->name('aplicar')->middleware('can:Proveedores Editar');
         Route::post('/{notaDebito}/anular', [NotaDebitoController::class, 'anular'])

@@ -25,6 +25,7 @@ class CuentaPorPagar extends Model
         'monto_total',
         'monto_pagado',
         'saldo_pendiente',
+        'moneda',
         'estado',
         'observaciones',
         'creadoPor',

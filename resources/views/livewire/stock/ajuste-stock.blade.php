@@ -37,21 +37,63 @@
 
         <form wire:submit.prevent="realizarAjuste">
             <div class="row">
+                {{-- Buscador de Productos --}}
                 <div class="col-md-6">
-                    <x-adminlte-select
-                        name="productoId"
-                        label="Producto *"
-                        wire:model.live="productoId"
-                        enable-old-support
-                    >
-                        <option value="">Seleccione un producto...</option>
-                        @foreach($productos as $producto)
-                            <option value="{{ $producto->id }}">
-                                {{ $producto->codigo }} - {{ $producto->nombre }}
-                            </option>
-                        @endforeach
-                    </x-adminlte-select>
-                    @error('productoId') <span class="text-danger">{{ $message }}</span> @enderror
+                    <div class="form-group">
+                        <label>Buscar Producto *</label>
+                        <div class="position-relative">
+                            <input
+                                type="text"
+                                wire:model.live.debounce.300ms="searchProducto"
+                                class="form-control"
+                                placeholder="Buscar por nombre o código..."
+                                autocomplete="off"
+                            >
+                            <div class="input-group-append" style="position: absolute; right: 5px; top: 5px;">
+                                <span class="input-group-text bg-transparent border-0">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+
+                            {{-- Resultados de búsqueda --}}
+                            @if($mostrarResultados && count($productosEncontrados) > 0)
+                                <div class="list-group position-absolute w-100" style="z-index: 1000; max-height: 300px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                                    @foreach($productosEncontrados as $producto)
+                                        <button
+                                            type="button"
+                                            wire:click="seleccionarProducto({{ $producto->id }})"
+                                            class="list-group-item list-group-item-action"
+                                        >
+                                            <div class="d-flex justify-content-between">
+                                                <div>
+                                                    <strong>{{ $producto->codigo }}</strong> - {{ $producto->nombre }}
+                                                </div>
+                                                @if($depositoId)
+                                                    @php
+                                                        $stockProd = \App\Models\Stock\Stock::where('producto_id', $producto->id)
+                                                            ->where('deposito_id', $depositoId)
+                                                            ->first();
+                                                    @endphp
+                                                    <small class="badge badge-primary">
+                                                        Stock: {{ $stockProd ? number_format($stockProd->stock_actual, 2) : '0.00' }} {{ $producto->unidadMedida->simbolo }}
+                                                    </small>
+                                                @endif
+                                            </div>
+                                        </button>
+                                    @endforeach
+                                </div>
+                            @endif
+
+                            @if($mostrarResultados && count($productosEncontrados) == 0 && strlen($searchProducto) >= 2)
+                                <div class="list-group position-absolute w-100" style="z-index: 1000;">
+                                    <div class="list-group-item text-muted">
+                                        <i class="fas fa-info-circle"></i> No se encontraron productos
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                        @error('productoId') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
                 </div>
 
                 <div class="col-md-6">
@@ -99,11 +141,11 @@
                     <x-adminlte-select
                         name="tipoAjuste"
                         label="Tipo de Ajuste *"
-                        wire:model="tipoAjuste"
+                        wire:model.live="tipoAjuste"
                         enable-old-support
                     >
-                        <option value="AJUSTE_POSITIVO">Ajuste Positivo (+)</option>
-                        <option value="AJUSTE_NEGATIVO">Ajuste Negativo (-)</option>
+                        <option value="AJUSTE_POSITIVO">Ajuste Positivo (+) - Aumenta Stock</option>
+                        <option value="AJUSTE_NEGATIVO">Ajuste Negativo (-) - Disminuye Stock</option>
                     </x-adminlte-select>
                     @error('tipoAjuste') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
@@ -156,13 +198,41 @@
                 </div>
             </div>
 
+            {{-- Motivo del Ajuste según tipo --}}
+            <div class="row">
+                <div class="col-md-12">
+                    <x-adminlte-select
+                        name="motivoAjuste"
+                        label="Motivo del Ajuste *"
+                        wire:model="motivoAjuste"
+                        enable-old-support
+                    >
+                        <option value="">Seleccione un motivo...</option>
+                        @if($tipoAjuste === 'AJUSTE_POSITIVO')
+                            <optgroup label="AJUSTES POSITIVOS (+) - Aumentan el Stock">
+                                @foreach($this->motivosPositivos as $key => $motivo)
+                                    <option value="{{ $motivo }}">{{ $motivo }}</option>
+                                @endforeach
+                            </optgroup>
+                        @else
+                            <optgroup label="AJUSTES NEGATIVOS (-) - Disminuyen el Stock">
+                                @foreach($this->motivosNegativos as $key => $motivo)
+                                    <option value="{{ $motivo }}">{{ $motivo }}</option>
+                                @endforeach
+                            </optgroup>
+                        @endif
+                    </x-adminlte-select>
+                    @error('motivoAjuste') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <x-adminlte-textarea
                         name="motivo"
-                        label="Motivo del Ajuste *"
+                        label="Observaciones Adicionales *"
                         rows="3"
-                        placeholder="Ingrese el motivo detallado del ajuste (mínimo 10 caracteres)..."
+                        placeholder="Ingrese observaciones adicionales del ajuste (mínimo 10 caracteres)..."
                         wire:model="motivo"
                         enable-old-support
                     />
@@ -189,10 +259,10 @@
                     <i class="fas fa-exclamation-triangle"></i>
                     <strong>Importante:</strong>
                     <ul class="mb-0 mt-2">
-                        <li>Los ajustes positivos incrementan el stock</li>
-                        <li>Los ajustes negativos disminuyen el stock</li>
+                        <li>Los ajustes positivos <strong>incrementan</strong> el stock</li>
+                        <li>Los ajustes negativos <strong>disminuyen</strong> el stock</li>
                         <li>Todos los ajustes quedan registrados en el kardex del producto</li>
-                        <li>El motivo del ajuste es obligatorio para auditoría</li>
+                        <li>El motivo y las observaciones son obligatorios para auditoría</li>
                     </ul>
                 </div>
             </div>

@@ -72,7 +72,35 @@ class NotaCredito extends Model
     // Métodos auxiliares
     public function aplicar()
     {
-        $this->update(['estado' => 'aplicada']);
+        \DB::beginTransaction();
+        try {
+            // Actualizar estado de la nota de crédito
+            $this->update(['estado' => 'aplicada']);
+
+            // Crear registro en cuentas_por_pagar con monto NEGATIVO
+            CuentaPorPagar::create([
+                'compra_id' => $this->compra_id,
+                'proveedor_id' => $this->proveedor_id,
+                'numero_documento' => $this->numero,
+                'timbrado' => null, // Las notas de crédito no tienen timbrado
+                'tipo' => 'NOTA_CREDITO',
+                'fecha_emision' => $this->fecha,
+                'fecha_vencimiento' => $this->fecha, // Mismo día que la emisión
+                'condicion_pago' => 'CONTADO',
+                'monto_total' => -abs($this->total), // NEGATIVO para reducir deuda
+                'monto_pagado' => 0,
+                'saldo_pendiente' => -abs($this->total), // NEGATIVO para reducir saldo
+                'moneda' => 'PYG',
+                'estado' => 'APLICADA',
+                'observaciones' => "Nota de Crédito #{$this->numero} - {$this->motivo}",
+                'creadoPor' => auth()->id(),
+            ]);
+
+            \DB::commit();
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            throw $e;
+        }
     }
 
     public function anular()

@@ -378,11 +378,11 @@ return [
                     'icon' => 'fas fa-warehouse',
                     'can' => 'Stocks Ver',
                 ],
-                ['text' => 'Reportes', 'icon' => 'fas fa-chart-bar', 'submenu' => [
-                    ['text' => 'Stock Bajo', 'route' => 'stock.reportes.stock-bajo'],
-                    ['text' => 'Rotación', 'route' => 'stock.reportes.rotacion'],
-                    ['text' => 'Valorizado', 'route' => 'stock.reportes.valorizado'],
-                ]],
+                // ['text' => 'Reportes', 'icon' => 'fas fa-chart-bar', 'submenu' => [
+                //     ['text' => 'Stock Bajo', 'route' => 'stock.reportes.stock-bajo'],
+                //     ['text' => 'Rotación', 'route' => 'stock.reportes.rotacion'],
+                //     ['text' => 'Valorizado', 'route' => 'stock.reportes.valorizado'],
+                // ]],
             ],
         ],
         [
@@ -444,18 +444,18 @@ return [
                     'icon' => 'fas fa-truck-loading',
                     'can' => 'Proveedores Ver',
                 ],
-                [
-                    'text' => 'Recepción Mercadería',
-                    'route' => 'compras.recepciones.index',
-                    'icon' => 'fas fa-box-open',
-                    'can' => 'compras.recepciones.ver',
-                ],
-                [
-                    'text' => 'Aprobaciones',
-                    'route' => 'compras.aprobaciones.pendientes',
-                    'icon' => 'fas fa-check-double',
-                    'can' => 'compras.aprobaciones.ver',
-                ],
+                // [
+                //     'text' => 'Recepción Mercadería',
+                //     'route' => 'compras.recepciones.index',
+                //     'icon' => 'fas fa-box-open',
+                //     'can' => 'compras.recepciones.ver',
+                // ],
+                // [
+                //     'text' => 'Aprobaciones',
+                //     'route' => 'compras.aprobaciones.pendientes',
+                //     'icon' => 'fas fa-check-double',
+                //     'can' => 'compras.aprobaciones.ver',
+                // ],
                 [
                     'text' => 'Cuentas por Pagar',
                     'route' => 'compras.pagos.index',
@@ -463,29 +463,29 @@ return [
                     'can' => 'Proveedores Ver',
                 ],
                 [
-                    'text' => 'Reportes',
-                    'icon' => 'fas fa-chart-bar',
-                    'can' => 'compras.reportes.ver',
-                    'submenu' => [
-                        [
-                            'text' => 'Libro de Compras',
-                            'route' => 'compras.reportes.libro-compras',
-                            'icon' => 'fas fa-book',
-                            'can' => 'compras.reportes.libro',
-                        ],
-                        [
-                            'text' => 'Análisis Proveedores',
-                            'route' => 'compras.reportes.analisis-proveedores',
-                            'icon' => 'fas fa-chart-line',
-                            'can' => 'compras.reportes.analisis',
-                        ],
-                        [
-                            'text' => 'Flujo de Aprobaciones',
-                            'route' => 'compras.reportes.flujo-aprobaciones',
-                            'icon' => 'fas fa-project-diagram',
-                            'can' => 'compras.reportes.flujo',
-                        ],
-                    ],
+                     'text' => 'Reportes',
+                     'icon' => 'fas fa-chart-bar',
+                     'can' => 'compras.reportes.ver',
+                     'submenu' => [
+                         [
+                             'text' => 'Libro de Compras',
+                             'route' => 'compras.reportes.libro-compras',
+                             'icon' => 'fas fa-book',
+                             'can' => 'compras.reportes.libro',
+                         ],
+                        //  [
+                        //      'text' => 'Análisis Proveedores',
+                        //      'route' => 'compras.reportes.analisis-proveedores',
+                        //      'icon' => 'fas fa-chart-line',
+                        //      'can' => 'compras.reportes.analisis',
+                        //  ],
+                        //  [
+                        //      'text' => 'Flujo de Aprobaciones',
+                        //      'route' => 'compras.reportes.flujo-aprobaciones',
+                        //      'icon' => 'fas fa-project-diagram',
+                        //      'can' => 'compras.reportes.flujo',
+                        //  ],
+                     ],
                 ],
             ],
         ],
