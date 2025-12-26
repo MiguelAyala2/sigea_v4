@@ -155,11 +155,12 @@
                             <th>Producto</th>
                             <th>Categoría</th>
                             <th>Depósito</th>
-                            <th class="text-right">Stock Actual</th>
+                            <th class="text-right">Cant. Existente</th>
                             <th class="text-right">Stock Mín.</th>
                             <th class="text-right">Stock Máx.</th>
+                            <th class="text-right">Precio Compra</th>
+                            <th class="text-right">Precio Venta</th>
                             <th class="text-center">Estado</th>
-                            <th>Ubicación</th>
                             <th class="text-center">Acciones</th>
                         </tr>
                     </thead>
@@ -201,17 +202,24 @@
                                         <span class="text-muted">-</span>
                                     @endif
                                 </td>
+                                <td class="text-right">
+                                    @if($stock->producto->precioActual)
+                                        <small class="text-muted">₲</small> {{ number_format($stock->producto->precioActual->precio_compra, 0, ',', '.') }}
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </td>
+                                <td class="text-right">
+                                    @if($stock->producto->precioActual)
+                                        <strong class="text-success">₲</strong> <strong>{{ number_format($stock->producto->precioActual->precio_venta, 0, ',', '.') }}</strong>
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </td>
                                 <td class="text-center">
                                     <span class="badge badge-{{ $stock->estado_badge }}">
                                         {{ ucfirst($stock->estado) }}
                                     </span>
-                                </td>
-                                <td>
-                                    @if($stock->ubicacion)
-                                        <small>{{ $stock->ubicacion }}</small>
-                                    @else
-                                        <span class="text-muted">-</span>
-                                    @endif
                                 </td>
                                 <td class="text-center">
                                     <a href="{{ route('stock.productos.show', $stock->producto_id) }}"

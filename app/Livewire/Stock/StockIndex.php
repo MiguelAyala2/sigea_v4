@@ -57,7 +57,7 @@ class StockIndex extends Component
 
     public function render()
     {
-        $query = Stock::with(['producto.unidadMedida', 'producto.categoria', 'deposito']);
+        $query = Stock::with(['producto.unidadMedida', 'producto.categoria', 'producto.precioActual', 'deposito']);
 
         // Filtrar solo productos activos
         if ($this->soloActivos) {

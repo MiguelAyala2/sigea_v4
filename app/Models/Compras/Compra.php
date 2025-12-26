@@ -163,6 +163,11 @@ class Compra extends Model implements Auditable
         return $this->belongsTo(User::class, 'actualizadoPor');
     }
 
+    public function cuentaPorPagar(): BelongsTo
+    {
+        return $this->belongsTo(CuentaPorPagar::class, 'id', 'compra_id');
+    }
+
     // ==================== ACCESSORS ====================
 
     public function getEstadoTextoAttribute(): string

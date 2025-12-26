@@ -18,6 +18,7 @@ class CuentaPorPagar extends Model
         'proveedor_id',
         'numero_documento',
         'timbrado',
+        'tipo',
         'fecha_emision',
         'fecha_vencimiento',
         'condicion_pago',

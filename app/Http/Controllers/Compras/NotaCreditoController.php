@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Compras\NotaCredito;
 use App\Models\Compras\Proveedor;
 use App\Models\Compras\Compra;
-use App\Models\Producto;
+use App\Models\Stock\Producto;
 use Illuminate\Http\Request;
 
 class NotaCreditoController extends Controller
@@ -23,7 +23,7 @@ class NotaCreditoController extends Controller
     public function create()
     {
         $proveedores = Proveedor::where('activo', true)->get();
-        $compras = Compra::where('estado', 'finalizada')->get();
+        $compras = Compra::where('estado', 'APROBADO')->get();
         $productos = Producto::where('activo', true)->get();
 
         return view('compras.notas-credito.create', compact('proveedores', 'compras', 'productos'));
@@ -95,7 +95,7 @@ class NotaCreditoController extends Controller
         }
 
         $proveedores = Proveedor::where('activo', true)->get();
-        $compras = Compra::where('estado', 'finalizada')->get();
+        $compras = Compra::where('estado', 'APROBADO')->get();
         $productos = Producto::where('activo', true)->get();
 
         return view('compras.notas-credito.edit', compact('notaCredito', 'proveedores', 'compras', 'productos'));

@@ -31,19 +31,9 @@ class StockInicialSeeder extends Seeder
             // Stock según categoría y marca
             $stocks = $this->determinarStock($producto, $categoria);
 
-            // Crear stock en cada depósito
+            // Crear stock SOLO en depósito Casa Matriz (principal)
             if ($stocks['casa_matriz'] > 0) {
                 $this->crearStock($producto, $depositoCasaMatriz, $stocks['casa_matriz']);
-                $contador++;
-            }
-
-            if ($stocks['san_lorenzo'] > 0) {
-                $this->crearStock($producto, $depositoSanLorenzo, $stocks['san_lorenzo']);
-                $contador++;
-            }
-
-            if ($stocks['nemby'] > 0) {
-                $this->crearStock($producto, $depositoNemby, $stocks['nemby']);
                 $contador++;
             }
         }

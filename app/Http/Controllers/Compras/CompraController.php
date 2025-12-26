@@ -8,6 +8,9 @@ use App\Models\Compras\AprobacionFlujo;
 use App\Models\Compras\Proveedor;
 use App\Models\Compras\CuentaPorPagar;
 use App\Models\Empresa\Empresa;
+use App\Models\Stock\Stock;
+use App\Models\Stock\MovimientoStock;
+use App\Models\Stock\Precio;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -113,37 +116,15 @@ class CompraController extends Controller
                 'creadoPor' => auth()->id(),
             ]);
 
-            // Generar Cuenta por Pagar si es a crédito
-            if ($compra->tipo_factura === 'CREDITO') {
-                $diasVencimiento = match($compra->condicion_pago) {
-                    '7_DIAS' => 7,
-                    '15_DIAS' => 15,
-                    '30_DIAS' => 30,
-                    '60_DIAS' => 60,
-                    '90_DIAS' => 90,
-                    default => 30,
-                };
+            // Crear Cuenta por Pagar (para CRÉDITO y CONTADO)
+            $this->crearCuentaPorPagar($compra);
 
-                CuentaPorPagar::create([
-                    'compra_id' => $compra->id,
-                    'proveedor_id' => $compra->proveedor_id,
-                    'numero_documento' => $compra->numero_factura,
-                    'timbrado' => $compra->timbrado,
-                    'fecha_emision' => $compra->fecha_emision,
-                    'fecha_vencimiento' => $compra->fecha_emision->addDays($diasVencimiento),
-                    'condicion_pago' => $compra->condicion_pago,
-                    'monto_total' => $compra->total,
-                    'monto_pagado' => 0,
-                    'saldo_pendiente' => $compra->total,
-                    'estado' => 'PENDIENTE',
-                    'observaciones' => 'Generada automáticamente al aprobar factura ' . $compra->numero_factura,
-                    'creadoPor' => auth()->id(),
-                ]);
-            }
+            // Actualizar Stock y Precios
+            $this->actualizarStockYPrecios($compra);
 
             DB::commit();
 
-            return back()->with('success', 'Compra aprobada correctamente' . ($compra->tipo_factura === 'CREDITO' ? ' y cuenta por pagar generada.' : '.'));
+            return back()->with('success', 'Compra aprobada correctamente. Stock y cuenta por pagar actualizados.');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -472,5 +453,133 @@ class CompraController extends Controller
             ->toArray();
 
         return $compras;
+    }
+
+    /**
+     * Crea cuenta por pagar al aprobar la compra
+     */
+    private function crearCuentaPorPagar(Compra $compra)
+    {
+        // Verificar si ya existe
+        $cuentaExistente = CuentaPorPagar::where('compra_id', $compra->id)->first();
+        if ($cuentaExistente) {
+            return;
+        }
+
+        // Calcular fecha de vencimiento
+        $fechaVencimiento = $compra->fecha_vencimiento;
+
+        if (!$fechaVencimiento && $compra->tipo_factura === 'CREDITO') {
+            $diasVencimiento = match($compra->condicion_pago) {
+                '7_DIAS' => 7,
+                '15_DIAS' => 15,
+                '30_DIAS' => 30,
+                '60_DIAS' => 60,
+                '90_DIAS' => 90,
+                default => 30,
+            };
+            $fechaVencimiento = $compra->fecha_emision->addDays($diasVencimiento);
+        } else if (!$fechaVencimiento) {
+            // Si es CONTADO y no tiene fecha, usar fecha de emisión
+            $fechaVencimiento = $compra->fecha_emision;
+        }
+
+        CuentaPorPagar::create([
+            'compra_id' => $compra->id,
+            'proveedor_id' => $compra->proveedor_id,
+            'numero_documento' => $compra->numero_factura,
+            'timbrado' => $compra->timbrado,
+            'tipo' => $compra->tipo_factura,
+            'fecha_emision' => $compra->fecha_emision,
+            'fecha_vencimiento' => $fechaVencimiento,
+            'condicion_pago' => $compra->condicion_pago,
+            'monto_total' => $compra->total,
+            'monto_pagado' => 0,
+            'saldo_pendiente' => $compra->total,
+            'moneda' => 'PYG',
+            'estado' => 'PENDIENTE',
+            'observaciones' => 'Generada automáticamente al aprobar factura ' . $compra->numero_factura,
+            'creadoPor' => auth()->id(),
+        ]);
+    }
+
+    /**
+     * Actualiza stock y precios al aprobar la compra
+     */
+    private function actualizarStockYPrecios(Compra $compra)
+    {
+        $compra->load('detalles');
+
+        foreach ($compra->detalles as $detalle) {
+            // Obtener o crear registro de stock
+            $stock = Stock::firstOrCreate(
+                [
+                    'producto_id' => $detalle->producto_id,
+                    'deposito_id' => $compra->deposito_id ?? 1,
+                ],
+                [
+                    'stock_actual' => 0,
+                    'stock_minimo' => 0,
+                    'stock_maximo' => 0,
+                    'creadoPor' => auth()->id(),
+                ]
+            );
+
+            $stockAnterior = $stock->stock_actual;
+            $nuevoStock = $stockAnterior + $detalle->cantidad;
+
+            // Actualizar stock
+            $stock->update([
+                'stock_actual' => $nuevoStock,
+                'actualizadoPor' => auth()->id(),
+            ]);
+
+            // Registrar movimiento en kardex
+            MovimientoStock::create([
+                'producto_id' => $detalle->producto_id,
+                'deposito_id' => $compra->deposito_id ?? 1,
+                'usuario_id' => auth()->id(),
+                'tipo' => 'ENTRADA_COMPRA',
+                'cantidad' => $detalle->cantidad,
+                'stock_anterior' => $stockAnterior,
+                'stock_posterior' => $nuevoStock,
+                'costo_unitario' => $detalle->precio_unitario,
+                'costo_total' => $detalle->precio_unitario * $detalle->cantidad,
+                'documento_tipo' => 'COMPRA',
+                'documento_id' => $compra->id,
+                'motivo' => "Entrada por compra #{$compra->numero_factura}",
+                'fecha_movimiento' => $compra->fecha_emision ?? now(),
+            ]);
+
+            // Actualizar precio actual
+            $precioActual = Precio::where('producto_id', $detalle->producto_id)
+                ->where('es_actual', true)
+                ->first();
+
+            if ($precioActual) {
+                $precioActual->update(['es_actual' => false]);
+            }
+
+            // Convertir IVA
+            $iva = match((int)($detalle->iva_porcentaje ?? 10)) {
+                10 => '10',
+                5 => '5',
+                0 => 'exenta',
+                default => '10',
+            };
+
+            // Crear nuevo precio actual
+            Precio::create([
+                'producto_id' => $detalle->producto_id,
+                'precio_compra' => $detalle->precio_unitario,
+                'precio_venta' => $precioActual ? $precioActual->precio_venta : ($detalle->precio_unitario * 1.3),
+                'margen_porcentaje' => $precioActual ? $precioActual->margen_porcentaje : 30,
+                'iva' => $iva,
+                'moneda' => 'PYG',
+                'tipo_cambio' => 1,
+                'es_actual' => true,
+                'creadoPor' => auth()->id(),
+            ]);
+        }
     }
 }

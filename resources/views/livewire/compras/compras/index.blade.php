@@ -201,7 +201,9 @@
                                             'BORRADOR' => 'secondary',
                                             'PENDIENTE' => 'warning',
                                             'ANULADA' => 'danger',
+                                            'RECHAZADA' => 'danger',
                                             'PAGADA' => 'info',
+                                            'PARCIAL' => 'info',
                                             default => 'light'
                                         };
                                     @endphp
@@ -283,13 +285,13 @@
 
                                                 @if($compra->estado == 'PENDIENTE' && auth()->user()->can('compras.compras.aprobar'))
                                                     <a class="dropdown-item" href="#"
-                                                       wire:click="cambiarEstado({{ $compra->id }}, 'APROBADA')"
+                                                       wire:click="cambiarEstado({{ $compra->id }}, 'APROBADO')"
                                                        wire:confirm="¿Aprobar esta compra?">
                                                         <i class="fas fa-check mr-2"></i> Aprobar
                                                     </a>
                                                 @endif
 
-                                                @if(in_array($compra->estado, ['PENDIENTE', 'APROBADA', 'BORRADOR']))
+                                                @if(in_array($compra->estado, ['PENDIENTE', 'APROBADO', 'BORRADOR']))
                                                     <a class="dropdown-item text-danger" href="#"
                                                        wire:click="cambiarEstado({{ $compra->id }}, 'ANULADA')"
                                                        wire:confirm="¿Anular esta compra?">
