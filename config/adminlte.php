@@ -599,6 +599,22 @@ return [
             'icon' => 'fas fa-cash-register',
             'submenu' => [
                 [
+                    'text' => 'Pedidos de Clientes',
+                    'icon' => 'fas fa-shopping-cart',
+                    'submenu' => [
+                        [
+                            'text' => 'Registrar Pedido',
+                            'route' => 'ventas.pedidos.registrar',
+                            'icon' => 'fas fa-plus-circle',
+                        ],
+                        [
+                            'text' => 'Historial de Pedidos',
+                            'route' => 'ventas.pedidos.historial',
+                            'icon' => 'fas fa-list',
+                        ],
+                    ],
+                ],
+                [
                     'text' => 'Caja',
                     'icon' => 'fas fa-money-bill-wave',
                     'submenu' => [
@@ -629,22 +645,22 @@ return [
                         ],
                     ],
                 ],
-                [
-                    'text' => 'Pedidos de Clientes',
-                    'icon' => 'fas fa-shopping-cart',
-                    'submenu' => [
-                        [
-                            'text' => 'Registrar Pedido',
-                            'route' => 'ventas.pedidos.registrar',
-                            'icon' => 'fas fa-plus-circle',
-                        ],
-                        [
-                            'text' => 'Historial de Pedidos',
-                            'route' => 'ventas.pedidos.historial',
-                            'icon' => 'fas fa-list',
-                        ],
-                    ],
-                ],
+                // [
+                //     'text' => 'Pedidos de Clientes',
+                //     'icon' => 'fas fa-shopping-cart',
+                //     'submenu' => [
+                //         [
+                //             'text' => 'Registrar Pedido',
+                //             'route' => 'ventas.pedidos.registrar',
+                //             'icon' => 'fas fa-plus-circle',
+                //         ],
+                //         [
+                //             'text' => 'Historial de Pedidos',
+                //             'route' => 'ventas.pedidos.historial',
+                //             'icon' => 'fas fa-list',
+                //         ],
+                //     ],
+                // ],
                 [
                     'text' => 'Ventas y Facturación',
                     'icon' => 'fas fa-file-invoice-dollar',

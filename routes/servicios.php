@@ -11,6 +11,8 @@ use App\Http\Controllers\Servicios\PromocionController;
 use App\Http\Controllers\Servicios\DescuentoController;
 use App\Http\Controllers\Servicios\PresupuestoController;
 use App\Http\Controllers\Servicios\OrdenServicioController;
+use App\Http\Controllers\Servicios\ReclamoController;
+use App\Http\Controllers\Servicios\InformeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,10 +95,24 @@ Route::middleware(['auth'])->prefix('servicios')->name('servicios.')->group(func
         Route::get('/descuentos/{descuento}/edit', 'edit')->name('descuentos.edit');
     });
 
-    // Reclamos
-    Route::get('/reclamos/registrar', [ServiciosController::class, 'reclamosRegistrar'])->name('reclamos.registrar');
-    Route::get('/reclamos/seguimiento', [ServiciosController::class, 'reclamosSeguimiento'])->name('reclamos.seguimiento');
+    // Reclamos - CRUD Funcional con Livewire
+    Route::controller(ReclamoController::class)->group(function () {
+        Route::get('/reclamos', 'index')->name('reclamos.index');
+        Route::get('/reclamos/registrar', 'create')->name('reclamos.registrar');
+        Route::get('/reclamos/seguimiento', 'index')->name('reclamos.seguimiento');
+        Route::post('/reclamos', 'store')->name('reclamos.store');
+        Route::get('/reclamos/{reclamo}', 'show')->name('reclamos.show');
+        Route::get('/reclamos/{reclamo}/edit', 'edit')->name('reclamos.edit');
+        Route::put('/reclamos/{reclamo}', 'update')->name('reclamos.update');
+        Route::delete('/reclamos/{reclamo}', 'destroy')->name('reclamos.destroy');
+    });
 
-    // Informes
-    Route::get('/informes', [ServiciosController::class, 'informes'])->name('informes.index');
+    // Informes y Reportes
+    Route::controller(InformeController::class)->group(function () {
+        Route::get('/informes', 'index')->name('informes.index');
+        Route::post('/informes/solicitudes', 'solicitudes')->name('informes.solicitudes');
+        Route::post('/informes/presupuestos', 'presupuestos')->name('informes.presupuestos');
+        Route::post('/informes/ordenes', 'ordenes')->name('informes.ordenes');
+        Route::post('/informes/reclamos', 'reclamos')->name('informes.reclamos');
+    });
 });
