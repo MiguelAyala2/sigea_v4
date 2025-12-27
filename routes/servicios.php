@@ -10,6 +10,7 @@ use App\Http\Controllers\Servicios\TipoServicioController;
 use App\Http\Controllers\Servicios\PromocionController;
 use App\Http\Controllers\Servicios\DescuentoController;
 use App\Http\Controllers\Servicios\PresupuestoController;
+use App\Http\Controllers\Servicios\OrdenServicioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,8 +68,15 @@ Route::middleware(['auth'])->prefix('servicios')->name('servicios.')->group(func
         Route::get('/presupuestos/{presupuesto}/edit', 'edit')->name('presupuestos.edit');
     });
 
-    // Gestión de Servicios Técnicos - Otras vistas
-    Route::get('/ordenes', [ServiciosController::class, 'ordenes'])->name('ordenes.index');
+    // Órdenes de Servicio - CRUD Funcional
+    Route::controller(OrdenServicioController::class)->group(function () {
+        Route::get('/ordenes', 'index')->name('ordenes.index');
+        Route::get('/ordenes/{orden}/editar', 'edit')->name('ordenes.edit');
+        Route::get('/ordenes/{orden}/imprimir-orden', 'imprimirOrdenTrabajo')->name('ordenes.imprimir-orden');
+        Route::get('/ordenes/{orden}/imprimir-contrato', 'imprimirContrato')->name('ordenes.imprimir-contrato');
+    });
+
+    // Entrega
     Route::get('/entrega', [ServiciosController::class, 'entrega'])->name('entrega.index');
 
     // Promociones - CRUD Funcional con Livewire

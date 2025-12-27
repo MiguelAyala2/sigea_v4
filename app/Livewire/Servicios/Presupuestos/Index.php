@@ -3,8 +3,11 @@
 namespace App\Livewire\Servicios\Presupuestos;
 
 use App\Models\Servicios\Presupuesto;
+use App\Models\Servicios\OrdenServicio;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Index extends Component
 {
@@ -51,15 +54,40 @@ class Index extends Component
 
     public function aprobar($id)
     {
-        $presupuesto = Presupuesto::findOrFail($id);
+        try {
+            DB::beginTransaction();
 
-        if ($presupuesto->estado !== 'pendiente_aprobacion') {
-            session()->flash('error', 'El presupuesto no está pendiente de aprobación.');
-            return;
+            $presupuesto = Presupuesto::findOrFail($id);
+
+            if ($presupuesto->estado !== 'pendiente_aprobacion') {
+                session()->flash('error', 'El presupuesto no está pendiente de aprobación.');
+                return;
+            }
+
+            // Actualizar estado del presupuesto
+            $presupuesto->update([
+                'estado' => 'aprobado',
+                'actualizadoPor' => Auth::id(),
+            ]);
+
+            // Crear orden de servicio automáticamente
+            $orden = OrdenServicio::create([
+                'codigo' => OrdenServicio::generarCodigo(),
+                'fecha_orden' => now()->toDateString(),
+                'presupuesto_id' => $presupuesto->id,
+                'estado' => 'pendiente',
+                'progreso' => 0,
+                'activo' => true,
+                'creadoPor' => Auth::id(),
+            ]);
+
+            DB::commit();
+
+            session()->flash('success', 'Presupuesto aprobado correctamente! Se ha generado la orden de servicio ' . $orden->codigo);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            session()->flash('error', 'Error al aprobar el presupuesto: ' . $e->getMessage());
         }
-
-        $presupuesto->update(['estado' => 'aprobado']);
-        session()->flash('success', 'Presupuesto aprobado correctamente!');
     }
 
     public function rechazar($id)

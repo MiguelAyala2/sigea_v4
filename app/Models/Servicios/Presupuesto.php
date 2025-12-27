@@ -5,6 +5,7 @@ namespace App\Models\Servicios;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Presupuesto extends Model
 {
@@ -74,6 +75,11 @@ class Presupuesto extends Model
     public function actualizador(): BelongsTo
     {
         return $this->belongsTo(User::class, 'actualizadoPor');
+    }
+
+    public function ordenServicio(): HasOne
+    {
+        return $this->hasOne(OrdenServicio::class, 'presupuesto_id');
     }
 
     // Accesorios
