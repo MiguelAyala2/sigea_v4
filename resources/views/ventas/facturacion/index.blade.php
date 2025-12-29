@@ -1,21 +1,39 @@
 @extends('adminlte::page')
-@section('title', 'Generar Venta / Factura')
-@section('content_header')<h1><i class="fas fa-receipt"></i> Generar Venta / Factura</h1>@stop
+
+@section('title', 'Facturación')
+
+@section('content_header')
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1>
+                <i class="fas fa-file-invoice-dollar mr-2"></i>
+                Facturación
+            </h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{ route('ventas.index') }}">Ventas</a></li>
+                <li class="breadcrumb-item active">Facturación</li>
+            </ol>
+        </div>
+    </div>
+@stop
+
 @section('content')
-<div class="card"><div class="card-body">
-<div class="row">
-<div class="col-md-4"><label>Cliente *</label><input type="text" class="form-control" placeholder="Buscar cliente..."></div>
-<div class="col-md-4"><label>Timbrado</label><select class="form-control"><option>12345678 (Vigente)</option></select></div>
-<div class="col-md-4"><label>N° Factura</label><input type="text" class="form-control" value="001-001-0000125" readonly></div>
-</div>
-<h5 class="mt-3">Productos</h5>
-<table class="table table-sm table-bordered">
-<thead class="thead-light"><tr><th>Código</th><th>Producto</th><th>Cant.</th><th>Precio</th><th>IVA %</th><th>Subtotal</th><th>Acción</th></tr></thead>
-<tbody><tr><td><input type="text" class="form-control form-control-sm"></td><td>-</td><td><input type="number" class="form-control form-control-sm"></td><td><input type="number" class="form-control form-control-sm"></td><td><select class="form-control form-control-sm"><option>10%</option><option>5%</option><option>Exenta</option></select></td><td>₲ 0</td><td><button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></td></tr></tbody>
-<tfoot><tr class="table-success"><td colspan="5" class="text-right"><strong>TOTAL:</strong></td><td colspan="2"><strong>₲ 0</strong></td></tr></tfoot>
-</table>
-<button class="btn btn-success btn-lg"><i class="fas fa-save"></i> Generar Factura</button>
-<button class="btn btn-info btn-lg"><i class="fas fa-print"></i> Imprimir</button>
-</div></div>
-<div class="alert alert-info"><i class="fas fa-info-circle"></i> <strong>Plantilla Visual</strong></div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4>Módulo de Facturación</h4>
+                    <p class="text-muted">Gestión de facturas de venta</p>
+                    <a href="{{ route('ventas.facturas.index') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-list"></i> Ver Facturas
+                    </a>
+                    <a href="{{ route('ventas.facturas.crear') }}" class="btn btn-success btn-lg">
+                        <i class="fas fa-plus"></i> Nueva Factura
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 @stop

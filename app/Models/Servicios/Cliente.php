@@ -69,6 +69,16 @@ class Cliente extends Model implements Auditable
         return $this->documento;
     }
 
+    public function getNombreRazonSocialAttribute(): string
+    {
+        return $this->nombre ?? '';
+    }
+
+    public function getRucCiAttribute(): string
+    {
+        return $this->documento ?? '';
+    }
+
     // ==================== SCOPES ====================
 
     #[Scope]

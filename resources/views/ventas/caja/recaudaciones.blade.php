@@ -1,15 +1,54 @@
 @extends('adminlte::page')
+
 @section('title', 'Recaudaciones a Depositar')
-@section('content_header')<h1><i class="fas fa-university"></i> Recaudaciones a Depositar</h1>@stop
+
+@section('content_header')
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1>
+                <i class="fas fa-hand-holding-usd mr-2"></i>
+                Recaudaciones a Depositar
+            </h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{ route('ventas.index') }}">Ventas</a></li>
+                <li class="breadcrumb-item"><a href="#">Caja</a></li>
+                <li class="breadcrumb-item active">Recaudaciones</li>
+            </ol>
+        </div>
+    </div>
+@stop
+
 @section('content')
-<div class="card"><div class="card-body">
-<table class="table table-bordered table-hover">
-<thead class="thead-light"><tr><th>Fecha Cierre</th><th>Caja</th><th>Efectivo</th><th>Cheques</th><th>Total</th><th>Estado</th><th>Acciones</th></tr></thead>
-<tbody>
-<tr><td>15/12/2025</td><td>CAJA 01</td><td>₲ 1.640.000</td><td>₲ 160.000</td><td>₲ 1.800.000</td><td><span class="badge badge-warning">Pendiente Depósito</span></td><td><button class="btn btn-sm btn-success"><i class="fas fa-check"></i> Registrar Depósito</button></td></tr>
-<tr><td>14/12/2025</td><td>CAJA 02</td><td>₲ 950.000</td><td>₲ 0</td><td>₲ 950.000</td><td><span class="badge badge-success">Depositado</span></td><td><button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button></td></tr>
-</tbody>
-</table>
-</div></div>
-<div class="alert alert-info"><i class="fas fa-info-circle"></i> <strong>Plantilla Visual</strong></div>
+    @livewire('ventas.caja.recaudaciones')
+@stop
+
+@section('css')
+    <style>
+        .card-info.card-outline {
+            border-top: 3px solid #17a2b8;
+        }
+        .bg-warning {
+            background-color: #fff3cd !important;
+        }
+        .badge {
+            font-size: 0.9em;
+        }
+    </style>
+@stop
+
+@section('js')
+    <script>
+        // Livewire events
+        window.addEventListener('livewire:init', () => {
+            Livewire.on('recaudacionRegistrada', () => {
+                console.log('Recaudación registrada exitosamente');
+            });
+
+            Livewire.on('recaudacionDepositada', () => {
+                console.log('Recaudación marcada como depositada');
+            });
+        });
+    </script>
 @stop

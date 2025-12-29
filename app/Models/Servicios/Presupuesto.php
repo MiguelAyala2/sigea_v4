@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Presupuesto extends Model
 {
@@ -80,6 +81,30 @@ class Presupuesto extends Model
     public function ordenServicio(): HasOne
     {
         return $this->hasOne(OrdenServicio::class, 'presupuesto_id');
+    }
+
+    public function tiposServicio(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            DiagnosticoTipoServicio::class,
+            Diagnostico::class,
+            'id',
+            'diagnostico_id',
+            'diagnostico_id',
+            'id'
+        );
+    }
+
+    public function repuestos(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            DiagnosticoRepuesto::class,
+            Diagnostico::class,
+            'id',
+            'diagnostico_id',
+            'diagnostico_id',
+            'id'
+        );
     }
 
     // Accesorios
