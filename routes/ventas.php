@@ -6,6 +6,9 @@ use App\Http\Controllers\Ventas\CajaController;
 use App\Http\Controllers\Ventas\FacturaController;
 use App\Http\Controllers\Ventas\CuentaPorCobrarController;
 use App\Http\Controllers\Ventas\RemisionController;
+use App\Http\Controllers\Ventas\NotaCreditoController;
+use App\Http\Controllers\Ventas\NotaDebitoController;
+use App\Http\Controllers\Ventas\InformesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,15 +100,27 @@ Route::middleware(['auth'])->prefix('ventas')->name('ventas.')->group(function (
         Route::get('/api/buscar-facturas', [RemisionController::class, 'buscarFacturas'])->name('buscarFacturas');
     });
 
-    // Notas de Crédito - Rutas temporales (placeholder)
-    Route::get('/notas-credito', function () {
-        return view('ventas.notas-credito.index');
-    })->name('notas-credito.index');
+    // Notas de Crédito
+    Route::prefix('notas-credito')->name('notas-credito.')->group(function () {
+        Route::get('/', [NotaCreditoController::class, 'index'])->name('index');
+        Route::get('/crear', [NotaCreditoController::class, 'create'])->name('crear');
+        Route::get('/{notaCredito}', [NotaCreditoController::class, 'show'])->name('show');
+        Route::get('/{notaCredito}/editar', [NotaCreditoController::class, 'edit'])->name('editar');
+        Route::post('/{notaCredito}/emitir', [NotaCreditoController::class, 'emitir'])->name('emitir');
+        Route::post('/{notaCredito}/anular', [NotaCreditoController::class, 'anular'])->name('anular');
+        Route::get('/{notaCredito}/pdf', [NotaCreditoController::class, 'pdf'])->name('pdf');
+    });
 
-    // Notas de Débito - Rutas temporales (placeholder)
-    Route::get('/notas-debito', function () {
-        return view('ventas.notas-debito.index');
-    })->name('notas-debito.index');
+    // Notas de Débito
+    Route::prefix('notas-debito')->name('notas-debito.')->group(function () {
+        Route::get('/', [NotaDebitoController::class, 'index'])->name('index');
+        Route::get('/crear', [NotaDebitoController::class, 'create'])->name('crear');
+        Route::get('/{notaDebito}', [NotaDebitoController::class, 'show'])->name('show');
+        Route::get('/{notaDebito}/editar', [NotaDebitoController::class, 'edit'])->name('editar');
+        Route::post('/{notaDebito}/emitir', [NotaDebitoController::class, 'emitir'])->name('emitir');
+        Route::post('/{notaDebito}/anular', [NotaDebitoController::class, 'anular'])->name('anular');
+        Route::get('/{notaDebito}/pdf', [NotaDebitoController::class, 'pdf'])->name('pdf');
+    });
 
     // Cobranzas - Rutas temporales (placeholder)
     Route::get('/cobranzas/registrar', function () {
@@ -125,9 +140,7 @@ Route::middleware(['auth'])->prefix('ventas')->name('ventas.')->group(function (
         return view('ventas.libro-ventas.index');
     })->name('libro-ventas.index');
 
-    // Informes - Rutas temporales (placeholder)
-    Route::get('/informes', function () {
-        return view('ventas.informes.index');
-    })->name('informes.index');
+    // Informes
+    Route::get('/informes', [InformesController::class, 'index'])->name('informes.index');
 
 });

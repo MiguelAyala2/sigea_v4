@@ -3,6 +3,7 @@
 namespace App\Models\Servicios;
 
 use App\Models\Stock\Producto;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -62,6 +63,16 @@ class SolicitudServicio extends Model implements Auditable
     public function producto(): BelongsTo
     {
         return $this->belongsTo(Producto::class, 'producto_id');
+    }
+
+    public function creador(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'creadoPor');
+    }
+
+    public function actualizador(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'actualizadoPor');
     }
 
     // Scopes

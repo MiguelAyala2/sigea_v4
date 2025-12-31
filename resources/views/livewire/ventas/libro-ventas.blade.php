@@ -87,7 +87,7 @@
             <div class="info-box bg-primary">
                 <span class="info-box-icon"><i class="fas fa-receipt"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Gravada 10%</span>
+                    <span class="info-box-text">IVA 10%</span>
                     <span class="info-box-number">₲ {{ number_format($total_gravada_10, 0, ',', '.') }}</span>
                     <small>IVA 10%: ₲ {{ number_format($total_iva_10, 0, ',', '.') }}</small>
                 </div>
@@ -111,6 +111,7 @@
                 <div class="info-box-content">
                     <span class="info-box-text">Exenta</span>
                     <span class="info-box-number">₲ {{ number_format($total_exenta, 0, ',', '.') }}</span>
+                    <small>EXCENTA: ₲ {{ number_format($total_iva_5, 0, ',', '.') }}</small>
                 </div>
             </div>
         </div>
@@ -146,10 +147,7 @@
                             <th style="width: 100px;">Timbrado</th>
                             <th>Cliente</th>
                             <th style="width: 120px;">RUC/CI</th>
-                            <th class="text-right" style="width: 120px;">Gravada 10%</th>
-                            <th class="text-right" style="width: 100px;">IVA 10%</th>
-                            <th class="text-right" style="width: 120px;">Gravada 5%</th>
-                            <th class="text-right" style="width: 100px;">IVA 5%</th>
+                            <th class="text-right" style="width: 120px;">IVA 10%</th>
                             <th class="text-right" style="width: 120px;">Exenta</th>
                             <th class="text-right" style="width: 120px;">Total</th>
                             <th style="width: 80px;">Estado</th>
@@ -157,11 +155,6 @@
                     </thead>
                     <tbody>
                         @forelse($facturas as $factura)
-                            @php
-                                // Calcular base gravada 10% y 5%
-                                $gravada_10 = $factura->iva_10 > 0 ? $factura->subtotal * ($factura->iva_10 / ($factura->subtotal + $factura->iva_10)) : 0;
-                                $gravada_5 = $factura->iva_5 > 0 ? $factura->subtotal * ($factura->iva_5 / ($factura->subtotal + $factura->iva_5)) : 0;
-                            @endphp
                             <tr class="{{ $factura->estado === 'ANULADA' ? 'table-danger' : '' }}">
                                 <td>{{ $factura->fecha_emision->format('d/m/Y') }}</td>
                                 <td>
@@ -178,38 +171,13 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if($factura->cliente)
-                                        {{ $factura->cliente->ruc ?: $factura->cliente->ci }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td class="text-right">
-                                    @if($factura->estado === 'ANULADA')
-                                        <span class="text-muted">-</span>
-                                    @else
-                                        {{ $gravada_10 > 0 ? '₲ ' . number_format($gravada_10, 0, ',', '.') : '-' }}
-                                    @endif
+                                    {{ $factura->cliente->documento ?? '-' }}
                                 </td>
                                 <td class="text-right">
                                     @if($factura->estado === 'ANULADA')
                                         <span class="text-muted">-</span>
                                     @else
                                         {{ $factura->iva_10 > 0 ? '₲ ' . number_format($factura->iva_10, 0, ',', '.') : '-' }}
-                                    @endif
-                                </td>
-                                <td class="text-right">
-                                    @if($factura->estado === 'ANULADA')
-                                        <span class="text-muted">-</span>
-                                    @else
-                                        {{ $gravada_5 > 0 ? '₲ ' . number_format($gravada_5, 0, ',', '.') : '-' }}
-                                    @endif
-                                </td>
-                                <td class="text-right">
-                                    @if($factura->estado === 'ANULADA')
-                                        <span class="text-muted">-</span>
-                                    @else
-                                        {{ $factura->iva_5 > 0 ? '₲ ' . number_format($factura->iva_5, 0, ',', '.') : '-' }}
                                     @endif
                                 </td>
                                 <td class="text-right">
@@ -236,7 +204,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="12" class="text-center py-4">
+                                <td colspan="9" class="text-center py-4">
                                     <i class="fas fa-info-circle mr-2 text-muted"></i>
                                     <span class="text-muted">No hay facturas registradas en este período</span>
                                 </td>
@@ -247,10 +215,7 @@
                         <tfoot class="table-success">
                             <tr>
                                 <td colspan="5"><strong>TOTALES DEL PERÍODO:</strong></td>
-                                <td class="text-right"><strong>₲ {{ number_format($total_gravada_10, 0, ',', '.') }}</strong></td>
                                 <td class="text-right"><strong>₲ {{ number_format($total_iva_10, 0, ',', '.') }}</strong></td>
-                                <td class="text-right"><strong>₲ {{ number_format($total_gravada_5, 0, ',', '.') }}</strong></td>
-                                <td class="text-right"><strong>₲ {{ number_format($total_iva_5, 0, ',', '.') }}</strong></td>
                                 <td class="text-right"><strong>₲ {{ number_format($total_exenta, 0, ',', '.') }}</strong></td>
                                 <td class="text-right"><strong>₲ {{ number_format($total_general, 0, ',', '.') }}</strong></td>
                                 <td></td>

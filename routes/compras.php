@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Compras\CompraController;
-use App\Http\Controllers\Compras\RecepcionController;
+use App\Http\Controllers\Compras\RecepcionesController;
 use App\Http\Controllers\Compras\ReporteController;
 use App\Http\Controllers\Compras\ProveedorController;
 use App\Http\Controllers\Compras\PagoController;
@@ -79,34 +79,16 @@ Route::middleware(['auth', 'verified'])->prefix('compras')->name('compras.')->gr
     // ==================== RECEPCIONES ====================
     Route::prefix('recepciones')->name('recepciones.')->group(function () {
         // Listado
-        Route::get('/', function () {
-            return view('compras.recepciones.index');
-        })->name('index')->middleware('can:compras.recepciones.ver');
+        Route::get('/', [RecepcionesController::class, 'index'])
+            ->name('index')->middleware('can:compras.recepciones.ver');
 
-        // Crear (con o sin compra específica)
-        Route::get('/crear', function () {
-            return view('compras.recepciones.create');
-        })->name('create')->middleware('can:compras.recepciones.crear');
-
-        Route::get('/crear/{compra_id}', function ($compra_id) {
-            return view('compras.recepciones.create', compact('compra_id'));
-        })->name('create.compra')->middleware('can:compras.recepciones.crear');
+        // Crear
+        Route::get('/crear', [RecepcionesController::class, 'create'])
+            ->name('create')->middleware('can:compras.recepciones.crear');
 
         // Mostrar
-        Route::get('/{recepcion}', function ($recepcion) {
-            return view('compras.recepciones.show', compact('recepcion'));
-        })->name('show')->middleware('can:compras.recepciones.ver');
-
-        // Editar
-        Route::get('/{recepcion}/editar', [RecepcionController::class, 'edit'])
-            ->name('edit')->middleware('can:compras.recepciones.editar');
-
-        // Acciones especiales
-        Route::post('/{recepcion}/completar', [RecepcionController::class, 'completar'])
-            ->name('completar')->middleware('can:compras.recepciones.editar');
-
-        Route::post('/{recepcion}/marcar-parcial', [RecepcionController::class, 'marcarParcial'])
-            ->name('marcar.parcial')->middleware('can:compras.recepciones.editar');
+        Route::get('/{recepcion}', [RecepcionesController::class, 'show'])
+            ->name('show')->middleware('can:compras.recepciones.ver');
     });
 
     // ==================== PROVEEDORES ====================

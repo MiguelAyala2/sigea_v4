@@ -5,65 +5,7 @@
 @section('content_header_subtitle', 'Gestión de flujos de aprobación')
 
 @section('content_body')
-    <div class="card">
-        <div class="card-header bg-light">
-            <h5 class="mb-0"><i class="fas fa-check-double mr-2"></i>Flujos de Aprobación</h5>
-        </div>
-        <div class="card-body">
-            <div class="alert alert-info">
-                <i class="fas fa-info-circle mr-2"></i>
-                Esta sección muestra todos los flujos de aprobación configurados en el sistema.
-                Próximamente podrá gestionar los diferentes niveles de aprobación por tipo de documento.
-            </div>
-            
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <div class="small-box bg-primary">
-                        <div class="inner">
-                            <h3>3</h3>
-                            <p>Niveles de Aprobación</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-layer-group"></i>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-4 mb-3">
-                    <div class="small-box bg-success">
-                        <div class="inner">
-                            <h3>5</h3>
-                            <p>Tipos de Documentos</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-file-alt"></i>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-4 mb-3">
-                    <div class="small-box bg-warning">
-                        <div class="inner">
-                            <h3>8</h3>
-                            <p>Roles Configurados</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-user-tag"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center py-4">
-                <i class="fas fa-cogs fa-3x text-muted mb-3"></i>
-                <h5 class="text-muted">Configuración en Desarrollo</h5>
-                <p class="text-muted">
-                    La configuración avanzada de flujos de aprobación estará disponible 
-                    en la próxima versión del módulo Compras.
-                </p>
-            </div>
-        </div>
-    </div>
+    @livewire('compras.aprobaciones.index')
 @endsection
 
 @push('styles')
