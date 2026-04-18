@@ -94,22 +94,22 @@ Route::middleware(['auth', 'verified'])->prefix('compras')->name('compras.')->gr
     // ==================== PROVEEDORES ====================
     Route::prefix('proveedores')->name('proveedores.')->group(function () {
         Route::get('/', [ProveedorController::class, 'index'])
-            ->name('index')->middleware('can:Proveedores Ver');
+            ->name('index')->middleware('can:compras.proveedores.ver');
 
         Route::get('/crear', [ProveedorController::class, 'create'])
-            ->name('create')->middleware('can:Proveedores Crear');
+            ->name('create')->middleware('can:compras.proveedores.crear');
 
         Route::get('/{proveedor}', [ProveedorController::class, 'show'])
-            ->name('show')->middleware('can:Proveedores Ver');
+            ->name('show')->middleware('can:compras.proveedores.ver');
 
         Route::get('/{proveedor}/editar', [ProveedorController::class, 'edit'])
-            ->name('edit')->middleware('can:Proveedores Editar');
+            ->name('edit')->middleware('can:compras.proveedores.editar');
 
         Route::delete('/{proveedor}', [ProveedorController::class, 'destroy'])
-            ->name('destroy')->middleware('can:Proveedores Eliminar');
+            ->name('destroy')->middleware('can:compras.proveedores.eliminar');
 
         Route::post('/{proveedor}/toggle-activo', [ProveedorController::class, 'toggleActivo'])
-            ->name('toggle-activo')->middleware('can:Proveedores Editar');
+            ->name('toggle-activo')->middleware('can:compras.proveedores.editar');
     });
 
     // ==================== APROBACIONES ====================
@@ -140,11 +140,11 @@ Route::middleware(['auth', 'verified'])->prefix('compras')->name('compras.')->gr
     // ==================== NOTAS DE CRÉDITO ====================
     Route::prefix('notas-credito')->name('notas-credito.')->group(function () {
         Route::get('/', [NotaCreditoController::class, 'index'])
-            ->name('index')->middleware('can:Proveedores Ver');
+            ->name('index')->middleware('can:compras.notas_credito.ver');
         Route::get('/crear', [NotaCreditoController::class, 'create'])
-            ->name('create')->middleware('can:Proveedores Crear');
+            ->name('create')->middleware('can:compras.notas_credito.crear');
         Route::post('/', [NotaCreditoController::class, 'store'])
-            ->name('store')->middleware('can:Proveedores Crear');
+            ->name('store')->middleware('can:compras.notas_credito.crear');
 
         // API para cargar compras por proveedor y fecha
         Route::get('/api/compras-por-proveedor-fecha', [NotaCreditoController::class, 'getComprasByProveedorFecha'])
@@ -155,27 +155,27 @@ Route::middleware(['auth', 'verified'])->prefix('compras')->name('compras.')->gr
             ->name('api.compra.detalles');
 
         Route::get('/{notaCredito}', [NotaCreditoController::class, 'show'])
-            ->name('show')->middleware('can:Proveedores Ver');
+            ->name('show')->middleware('can:compras.notas_credito.ver');
         Route::get('/{notaCredito}/editar', [NotaCreditoController::class, 'edit'])
-            ->name('edit')->middleware('can:Proveedores Editar');
+            ->name('edit')->middleware('can:compras.notas_credito.crear');
         Route::put('/{notaCredito}', [NotaCreditoController::class, 'update'])
-            ->name('update')->middleware('can:Proveedores Editar');
+            ->name('update')->middleware('can:compras.notas_credito.crear');
         Route::post('/{notaCredito}/aplicar', [NotaCreditoController::class, 'aplicar'])
-            ->name('aplicar')->middleware('can:Proveedores Editar');
+            ->name('aplicar')->middleware('can:compras.notas_credito.aprobar');
         Route::post('/{notaCredito}/anular', [NotaCreditoController::class, 'anular'])
-            ->name('anular')->middleware('can:Proveedores Editar');
+            ->name('anular')->middleware('can:compras.notas_credito.anular');
         Route::delete('/{notaCredito}', [NotaCreditoController::class, 'destroy'])
-            ->name('destroy')->middleware('can:Proveedores Eliminar');
+            ->name('destroy')->middleware('can:compras.notas_credito.anular');
     });
 
     // ==================== NOTAS DE DÉBITO ====================
     Route::prefix('notas-debito')->name('notas-debito.')->group(function () {
         Route::get('/', [NotaDebitoController::class, 'index'])
-            ->name('index')->middleware('can:Proveedores Ver');
+            ->name('index')->middleware('can:compras.notas_debito.ver');
         Route::get('/crear', [NotaDebitoController::class, 'create'])
-            ->name('create')->middleware('can:Proveedores Crear');
+            ->name('create')->middleware('can:compras.notas_debito.crear');
         Route::post('/', [NotaDebitoController::class, 'store'])
-            ->name('store')->middleware('can:Proveedores Crear');
+            ->name('store')->middleware('can:compras.notas_debito.crear');
 
         // API para cargar compras por proveedor y fecha
         Route::get('/api/compras-por-proveedor-fecha', [NotaDebitoController::class, 'getComprasByProveedorFecha'])
@@ -186,27 +186,27 @@ Route::middleware(['auth', 'verified'])->prefix('compras')->name('compras.')->gr
             ->name('api.compra.detalles');
 
         Route::get('/{notaDebito}', [NotaDebitoController::class, 'show'])
-            ->name('show')->middleware('can:Proveedores Ver');
+            ->name('show')->middleware('can:compras.notas_debito.ver');
         Route::get('/{notaDebito}/editar', [NotaDebitoController::class, 'edit'])
-            ->name('edit')->middleware('can:Proveedores Editar');
+            ->name('edit')->middleware('can:compras.notas_debito.crear');
         Route::put('/{notaDebito}', [NotaDebitoController::class, 'update'])
-            ->name('update')->middleware('can:Proveedores Editar');
+            ->name('update')->middleware('can:compras.notas_debito.crear');
         Route::post('/{notaDebito}/aplicar', [NotaDebitoController::class, 'aplicar'])
-            ->name('aplicar')->middleware('can:Proveedores Editar');
+            ->name('aplicar')->middleware('can:compras.notas_debito.aprobar');
         Route::post('/{notaDebito}/anular', [NotaDebitoController::class, 'anular'])
-            ->name('anular')->middleware('can:Proveedores Editar');
+            ->name('anular')->middleware('can:compras.notas_debito.anular');
         Route::delete('/{notaDebito}', [NotaDebitoController::class, 'destroy'])
-            ->name('destroy')->middleware('can:Proveedores Eliminar');
+            ->name('destroy')->middleware('can:compras.notas_debito.anular');
     });
 
     // ==================== REMISIONES ====================
     Route::prefix('remisiones')->name('remisiones.')->group(function () {
         Route::get('/', [RemisionController::class, 'index'])
-            ->name('index')->middleware('can:Proveedores Ver');
+            ->name('index')->middleware('can:compras.recepciones.ver');
         Route::get('/crear', [RemisionController::class, 'create'])
-            ->name('create')->middleware('can:Proveedores Crear');
+            ->name('create')->middleware('can:compras.recepciones.crear');
         Route::post('/', [RemisionController::class, 'store'])
-            ->name('store')->middleware('can:Proveedores Crear');
+            ->name('store')->middleware('can:compras.recepciones.crear');
 
         // API endpoints para sucursales
         Route::get('/sucursal/{sucursalId}/depositos', [RemisionController::class, 'getDepositosPorSucursal'])
@@ -215,15 +215,15 @@ Route::middleware(['auth', 'verified'])->prefix('compras')->name('compras.')->gr
             ->name('sucursal.datos');
 
         Route::get('/{remision}', [RemisionController::class, 'show'])
-            ->name('show')->middleware('can:Proveedores Ver');
+            ->name('show')->middleware('can:compras.recepciones.ver');
         Route::get('/{remision}/editar', [RemisionController::class, 'edit'])
-            ->name('edit')->middleware('can:Proveedores Editar');
+            ->name('edit')->middleware('can:compras.recepciones.editar');
         Route::post('/{remision}/recibir', [RemisionController::class, 'recibir'])
-            ->name('recibir')->middleware('can:Proveedores Editar');
+            ->name('recibir')->middleware('can:compras.recepciones.editar');
         Route::post('/{remision}/anular', [RemisionController::class, 'anular'])
-            ->name('anular')->middleware('can:Proveedores Editar');
+            ->name('anular')->middleware('can:compras.recepciones.eliminar');
         Route::delete('/{remision}', [RemisionController::class, 'destroy'])
-            ->name('destroy')->middleware('can:Proveedores Eliminar');
+            ->name('destroy')->middleware('can:compras.recepciones.eliminar');
     });
 
     // ==================== REPORTES ====================
@@ -269,142 +269,142 @@ Route::middleware(['auth', 'verified'])->prefix('compras')->name('compras.')->gr
         // Configuración general del módulo
         Route::get('/', function () {
             return view('compras.configuracion.index');
-        })->name('index')->middleware('can:compras.configuracion.ver');
+        })->name('index')->middleware('can:empresa.configuracion.ver');
 
         // Flujos de aprobación
         Route::get('/flujos-aprobacion', function () {
             return view('compras.configuracion.flujos-aprobacion');
-        })->name('flujos-aprobacion')->middleware('can:compras.configuracion.editar');
+        })->name('flujos-aprobacion')->middleware('can:empresa.configuracion.editar');
 
         // Tipos de documento
         Route::get('/tipos-documento', function () {
             return view('compras.configuracion.tipos-documento');
-        })->name('tipos-documento')->middleware('can:compras.configuracion.editar');
+        })->name('tipos-documento')->middleware('can:empresa.configuracion.editar');
     });
 
     // ==================== PEDIDOS DE COMPRA ====================
     Route::prefix('pedidos')->name('pedidos.')->group(function () {
         Route::get('/', [App\Http\Controllers\Compras\PedidoCompraController::class, 'index'])
-            ->name('index')->middleware('can:Proveedores Ver');
+            ->name('index')->middleware('can:compras.ordenes.ver');
 
         Route::get('/exportar-pdf', [App\Http\Controllers\Compras\PedidoCompraController::class, 'exportarPDF'])
-            ->name('exportar-pdf')->middleware('can:Proveedores Ver');
+            ->name('exportar-pdf')->middleware('can:compras.ordenes.ver');
 
         Route::get('/exportar-excel', [App\Http\Controllers\Compras\PedidoCompraController::class, 'exportarExcel'])
-            ->name('exportar-excel')->middleware('can:Proveedores Ver');
+            ->name('exportar-excel')->middleware('can:compras.ordenes.ver');
 
         Route::get('/crear', [App\Http\Controllers\Compras\PedidoCompraController::class, 'create'])
-            ->name('create')->middleware('can:Proveedores Crear');
+            ->name('create')->middleware('can:compras.ordenes.crear');
 
         Route::get('/{pedido}', [App\Http\Controllers\Compras\PedidoCompraController::class, 'show'])
-            ->name('show')->middleware('can:Proveedores Ver');
+            ->name('show')->middleware('can:compras.ordenes.ver');
 
         Route::get('/{pedido}/imprimir-pdf', [App\Http\Controllers\Compras\PedidoCompraController::class, 'imprimirPDF'])
-            ->name('imprimir-pdf')->middleware('can:Proveedores Ver');
+            ->name('imprimir-pdf')->middleware('can:compras.ordenes.imprimir');
 
         Route::get('/{pedido}/editar', [App\Http\Controllers\Compras\PedidoCompraController::class, 'edit'])
-            ->name('edit')->middleware('can:Proveedores Editar');
+            ->name('edit')->middleware('can:compras.ordenes.editar');
 
         Route::post('/{pedido}/aprobar', [App\Http\Controllers\Compras\PedidoCompraController::class, 'aprobar'])
-            ->name('aprobar')->middleware('can:Proveedores Editar');
+            ->name('aprobar')->middleware('can:compras.ordenes.aprobar');
 
         Route::post('/{pedido}/rechazar', [App\Http\Controllers\Compras\PedidoCompraController::class, 'rechazar'])
-            ->name('rechazar')->middleware('can:Proveedores Editar');
+            ->name('rechazar')->middleware('can:compras.ordenes.rechazar');
     });
 
     // ==================== PRESUPUESTOS ====================
     Route::prefix('presupuestos')->name('presupuestos.')->group(function () {
         Route::get('/', [App\Http\Controllers\Compras\PresupuestoController::class, 'index'])
-            ->name('index')->middleware('can:Proveedores Ver');
+            ->name('index')->middleware('can:compras.ordenes.ver');
 
         // Exportaciones
         Route::get('/exportar-pdf', [App\Http\Controllers\Compras\PresupuestoController::class, 'exportarPDF'])
-            ->name('exportar-pdf')->middleware('can:Proveedores Ver');
+            ->name('exportar-pdf')->middleware('can:compras.ordenes.ver');
 
         Route::get('/exportar-excel', [App\Http\Controllers\Compras\PresupuestoController::class, 'exportarExcel'])
-            ->name('exportar-excel')->middleware('can:Proveedores Ver');
+            ->name('exportar-excel')->middleware('can:compras.ordenes.ver');
 
         Route::get('/crear', [App\Http\Controllers\Compras\PresupuestoController::class, 'create'])
-            ->name('create')->middleware('can:Proveedores Crear');
+            ->name('create')->middleware('can:compras.ordenes.crear');
 
         Route::get('/comparar', [App\Http\Controllers\Compras\PresupuestoController::class, 'comparar'])
-            ->name('comparar')->middleware('can:Proveedores Ver');
+            ->name('comparar')->middleware('can:compras.ordenes.ver');
 
         Route::get('/{presupuesto}', [App\Http\Controllers\Compras\PresupuestoController::class, 'show'])
-            ->name('show')->middleware('can:Proveedores Ver');
+            ->name('show')->middleware('can:compras.ordenes.ver');
 
         Route::get('/{presupuesto}/imprimir-pdf', [App\Http\Controllers\Compras\PresupuestoController::class, 'imprimirPDF'])
-            ->name('imprimir-pdf')->middleware('can:Proveedores Ver');
+            ->name('imprimir-pdf')->middleware('can:compras.ordenes.imprimir');
 
         Route::get('/{presupuesto}/editar', [App\Http\Controllers\Compras\PresupuestoController::class, 'edit'])
-            ->name('edit')->middleware('can:Proveedores Editar');
+            ->name('edit')->middleware('can:compras.ordenes.editar');
 
         Route::post('/{presupuesto}/seleccionar', [App\Http\Controllers\Compras\PresupuestoController::class, 'seleccionar'])
-            ->name('seleccionar')->middleware('can:Proveedores Editar');
+            ->name('seleccionar')->middleware('can:compras.ordenes.aprobar');
     });
 
     // ==================== ÓRDENES DE COMPRA ====================
     Route::prefix('ordenes')->name('ordenes.')->group(function () {
         Route::get('/', [App\Http\Controllers\Compras\OrdenCompraController::class, 'index'])
-            ->name('index')->middleware('can:Proveedores Ver');
+            ->name('index')->middleware('can:compras.ordenes.ver');
 
         // Exportaciones
         Route::get('/exportar-pdf', [App\Http\Controllers\Compras\OrdenCompraController::class, 'exportarPDF'])
-            ->name('exportar-pdf')->middleware('can:Proveedores Ver');
+            ->name('exportar-pdf')->middleware('can:compras.ordenes.ver');
 
         Route::get('/exportar-excel', [App\Http\Controllers\Compras\OrdenCompraController::class, 'exportarExcel'])
-            ->name('exportar-excel')->middleware('can:Proveedores Ver');
+            ->name('exportar-excel')->middleware('can:compras.ordenes.ver');
 
         Route::get('/crear', [App\Http\Controllers\Compras\OrdenCompraController::class, 'create'])
-            ->name('create')->middleware('can:Proveedores Crear');
+            ->name('create')->middleware('can:compras.ordenes.crear');
 
         Route::get('/{orden}', [App\Http\Controllers\Compras\OrdenCompraController::class, 'show'])
-            ->name('show')->middleware('can:Proveedores Ver');
+            ->name('show')->middleware('can:compras.ordenes.ver');
 
         Route::get('/{orden}/imprimir-pdf', [App\Http\Controllers\Compras\OrdenCompraController::class, 'imprimirPDF'])
-            ->name('imprimir-pdf')->middleware('can:Proveedores Ver');
+            ->name('imprimir-pdf')->middleware('can:compras.ordenes.imprimir');
 
         Route::get('/{orden}/editar', [App\Http\Controllers\Compras\OrdenCompraController::class, 'edit'])
-            ->name('edit')->middleware('can:Proveedores Editar');
+            ->name('edit')->middleware('can:compras.ordenes.editar');
 
         Route::get('/{orden}/imprimir', [App\Http\Controllers\Compras\OrdenCompraController::class, 'imprimir'])
-            ->name('imprimir')->middleware('can:Proveedores Ver');
+            ->name('imprimir')->middleware('can:compras.ordenes.imprimir');
 
         Route::post('/{orden}/emitir', [App\Http\Controllers\Compras\OrdenCompraController::class, 'emitir'])
-            ->name('emitir')->middleware('can:Proveedores Editar');
+            ->name('emitir')->middleware('can:compras.ordenes.aprobar');
 
         Route::post('/{orden}/enviar', [App\Http\Controllers\Compras\OrdenCompraController::class, 'enviar'])
-            ->name('enviar')->middleware('can:Proveedores Editar');
+            ->name('enviar')->middleware('can:compras.ordenes.aprobar');
 
         Route::post('/{orden}/confirmar', [App\Http\Controllers\Compras\OrdenCompraController::class, 'confirmar'])
-            ->name('confirmar')->middleware('can:Proveedores Editar');
+            ->name('confirmar')->middleware('can:compras.ordenes.aprobar');
 
         Route::post('/{orden}/cancelar', [App\Http\Controllers\Compras\OrdenCompraController::class, 'cancelar'])
-            ->name('cancelar')->middleware('can:Proveedores Editar');
+            ->name('cancelar')->middleware('can:compras.ordenes.anular');
     });
 
     // ==================== CUENTAS POR PAGAR / PAGOS ====================
     Route::prefix('pagos')->name('pagos.')->group(function () {
         Route::get('/', [PagoController::class, 'index'])
-            ->name('index')->middleware('can:Proveedores Ver');
+            ->name('index')->middleware('can:compras.cuentas_pagar.ver');
 
         // Exportaciones
         Route::get('/exportar-pdf', [PagoController::class, 'exportarPDF'])
-            ->name('exportar-pdf')->middleware('can:Proveedores Ver');
+            ->name('exportar-pdf')->middleware('can:compras.cuentas_pagar.reportes');
 
         Route::get('/exportar-excel', [PagoController::class, 'exportarExcel'])
-            ->name('exportar-excel')->middleware('can:Proveedores Ver');
+            ->name('exportar-excel')->middleware('can:compras.cuentas_pagar.reportes');
 
         Route::get('/{cuenta}', [PagoController::class, 'show'])
-            ->name('show')->middleware('can:Proveedores Ver');
+            ->name('show')->middleware('can:compras.cuentas_pagar.ver');
     });
 
     Route::prefix('cuentas-pagar')->name('cuentas-pagar.')->group(function () {
         Route::get('/', [PagoController::class, 'index'])
-            ->name('index')->middleware('can:Proveedores Ver');
+            ->name('index')->middleware('can:compras.cuentas_pagar.ver');
 
         Route::get('/{cuenta}', [PagoController::class, 'show'])
-            ->name('show')->middleware('can:Proveedores Ver');
+            ->name('show')->middleware('can:compras.cuentas_pagar.ver');
     });
 
     // Redirecciones eliminadas - Los módulos ya existen

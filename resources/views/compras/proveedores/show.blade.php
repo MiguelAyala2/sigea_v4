@@ -8,7 +8,7 @@
             <h1>Proveedor: {{ $proveedor->razon_social }}</h1>
         </div>
         <div class="col-md-6 text-right">
-            @can('Proveedores Editar')
+            @can('compras.proveedores.editar')
                 <a href="{{ route('compras.proveedores.edit', $proveedor) }}" class="btn btn-primary">
                     <i class="fas fa-edit"></i> Editar
                 </a>

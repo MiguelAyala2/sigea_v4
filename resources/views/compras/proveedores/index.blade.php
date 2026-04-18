@@ -8,7 +8,7 @@
             <h1>Proveedores</h1>
         </div>
         <div class="col-md-6 text-right">
-            @can('Proveedores Crear')
+            @can('compras.proveedores.crear')
                 <a href="{{ route('compras.proveedores.create') }}" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Nuevo Proveedor
                 </a>

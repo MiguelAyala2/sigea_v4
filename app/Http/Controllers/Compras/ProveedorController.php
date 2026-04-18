@@ -13,7 +13,7 @@ class ProveedorController extends Controller
      */
     public function index()
     {
-        $this->authorize('Proveedores Ver');
+        $this->authorize('compras.proveedores.ver');
 
         return view('compras.proveedores.index');
     }
@@ -23,7 +23,7 @@ class ProveedorController extends Controller
      */
     public function create()
     {
-        $this->authorize('Proveedores Crear');
+        $this->authorize('compras.proveedores.crear');
 
         return view('compras.proveedores.create');
     }
@@ -33,7 +33,7 @@ class ProveedorController extends Controller
      */
     public function edit(Proveedor $proveedor)
     {
-        $this->authorize('Proveedores Editar');
+        $this->authorize('compras.proveedores.editar');
 
         return view('compras.proveedores.edit', compact('proveedor'));
     }
@@ -43,7 +43,7 @@ class ProveedorController extends Controller
      */
     public function show(Proveedor $proveedor)
     {
-        $this->authorize('Proveedores Ver');
+        $this->authorize('compras.proveedores.ver');
 
         $proveedor->load(['compras' => function ($query) {
             $query->latest('fecha_emision')->take(10);
@@ -57,7 +57,7 @@ class ProveedorController extends Controller
      */
     public function destroy(Proveedor $proveedor)
     {
-        $this->authorize('Proveedores Eliminar');
+        $this->authorize('compras.proveedores.eliminar');
 
         try {
             $proveedor->delete();
@@ -74,7 +74,7 @@ class ProveedorController extends Controller
      */
     public function toggleActivo(Proveedor $proveedor)
     {
-        $this->authorize('Proveedores Editar');
+        $this->authorize('compras.proveedores.editar');
 
         $proveedor->update(['activo' => !$proveedor->activo]);
 

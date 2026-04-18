@@ -64,17 +64,17 @@
                             </td>
                             <td>
                                 <div class="btn-group btn-group-sm">
-                                    @can('Proveedores Ver')
+                                    @can('compras.proveedores.ver')
                                         <a href="{{ route('compras.proveedores.show', $proveedor) }}" class="btn btn-info btn-sm" title="Ver">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                     @endcan
-                                    @can('Proveedores Editar')
+                                    @can('compras.proveedores.editar')
                                         <a href="{{ route('compras.proveedores.edit', $proveedor) }}" class="btn btn-primary btn-sm" title="Editar">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                     @endcan
-                                    @can('Proveedores Eliminar')
+                                    @can('compras.proveedores.eliminar')
                                         <button type="button" class="btn btn-danger btn-sm" title="Eliminar"
                                                 onclick="confirm('¿Está seguro de eliminar este proveedor?') || event.stopImmediatePropagation()"
                                                 wire:click="$emit('delete', {{ $proveedor->id }})">

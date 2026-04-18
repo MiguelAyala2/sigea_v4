@@ -74,7 +74,7 @@
                         class="btn-sm" wire:click="resetearContrasena({{ $usuario->id }})"
                         wire:confirm="Estas Seguro que desear Restablecer la contraseña por defecto de este usuario?" />
 
-                    @can('Usuarios Asignar Rol')
+                    @can('admin.usuarios.asignar_rol')
                         <a href="{{ route('admin.usuarios.asignar-rol', $usuario->id) }}"
                             class="btn btn-sm btn-outline-secondary"><i class="fas fa-user-tag"></i> Asig. Rol</a>
                     @endcan
